@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "233341424123",
+    "project_id": "school-club-4a8c6",
+    "storage_bucket": "school-club-4a8c6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:233341424123:android:5943ffa07746ea225a7b5e",
+        "android_client_info": {
+          "package_name": "com.qwerty.school_club"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "233341424123-dqgmqc68eui02o5vch7qt4q9k2p0dsdr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.qwerty.school_club",
+            "certificate_hash": "0fab32847c034593606e17b87b40f7b26a0ba805"
+          }
+        },
+        {
+          "client_id": "233341424123-6vjb74mq9f6vbts5s6okc3osi05pf0ha.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBj9H8mNjq2-j2PSn5OAe9OmH9O5hm8dk8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "233341424123-6vjb74mq9f6vbts5s6okc3osi05pf0ha.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="MessagesAdapter"
+            type="com.op.eschool.chatboat.MessagesAdapter" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/rlHeader"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:orientation="horizontal"
+            android:background="@color/primary_color"
+
+            >
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_gravity="center"
+                android:padding="@dimen/_3sdp"
+                app:srcCompat="@drawable/ic_back"
+                app:tint="@color/white" />
+
+
+            <TextView
+                android:id="@+id/txt_title"
+                android:layout_width="0sp"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:gravity="center|start"
+                android:paddingStart="@dimen/_5sdp"
+                android:singleLine="true"
+                android:text="Chat with AI"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:adapter="@{MessagesAdapter}"
+          />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:padding="5dp">
+
+            <EditText
+                android:id="@+id/msgInput"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:maxLines="2"
+                android:hint="Enter Message"
+                android:paddingHorizontal="@dimen/_10sdp"
+
+                android:background="@drawable/message_stroke_bg"
+                android:inputType="text"
+                android:textSize="14sp"
+                 />
+
+            <ImageButton
+                android:id="@+id/mic"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@drawable/ic_mic_black_24dp"
+                android:src="@drawable/send"
+                android:padding="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:scaleType="fitCenter"
+                app:tint="@color/white" />
+
+            <ImageButton
+                android:id="@+id/msgButton"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@drawable/circular_button"
+                android:src="@drawable/send"
+                android:padding="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:scaleType="fitCenter"
+                app:tint="@color/white" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

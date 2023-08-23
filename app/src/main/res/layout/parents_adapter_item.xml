@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="model"
+            type="com.op.eschool.models.parents_model.ParentModel" />
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:elevation="@dimen/_10sdp"
+        app:cardCornerRadius="@dimen/_10sdp"
+        android:layout_margin="@dimen/_5sdp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/_10sdp"
+                >
+
+                <LinearLayout
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:background="@drawable/round_top"
+
+                    >
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/students_placeholder"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:textStyle="bold"
+                        android:text='@{"Name : " + model.prtName}'
+                        android:layout_gravity="center|start"
+                        android:gravity="center|start"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_11ssp"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:textStyle="bold"
+                        android:text='@{"Mobile : " + model.prtMobile}'
+                        android:layout_gravity="center|start"
+                        android:gravity="center|start"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_11ssp"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        />
+
+
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+            <net.cachapa.expandablelayout.ExpandableLayout
+                android:id="@+id/expandable_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp"
+                app:el_duration="1000"
+                app:el_expanded="false"
+                android:layout_marginStart="@dimen/_10sdp"
+                app:el_parallax="0.5">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:id="@+id/txt_wallet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="center|start"
+                        android:gravity="center|start"
+                        android:singleLine="true"
+                        android:text='@{"Parent ID : " + model.parentId}'
+
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_11ssp" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:singleLine="true"
+                        android:text='@{"Gender : " + model.prtGender}'
+                        android:layout_gravity="center|start"
+                        android:gravity="center|start"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_11ssp"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:singleLine="true"
+                        android:text='@{"City : " + model.prtCity}'
+                        android:layout_gravity="center|start"
+                        android:gravity="center|start"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_11ssp"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:singleLine="true"
+                        android:text='@{"State : " + model.prtState}'
+                        android:layout_gravity="center|start"
+                        android:gravity="center|start"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_11ssp"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        />
+
+                </LinearLayout>
+
+            </net.cachapa.expandablelayout.ExpandableLayout>
+
+
+        </LinearLayout>
+
+
+
+
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary_color">#0C46C4</color>
+    <color name="secendery_color">#28C2A0</color>
+
+    <color name="hint_color">#B3B3B3</color>
+    <color name="gray">#A6A1A1</color>
+    <color name="dashboard_item_bg">#E9F9F5</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="dark_grey">#1D2226</color>
+    <color name="success_color">#26C922</color>
+    <color name="failed_color">#FF0000</color>
+    <color name="pending_color">#DCD7D4</color>
+
+    <color name="shadow_start">#80000000</color>
+    <color name="shadow_end">#00000000</color>
+
+    <color name="textBackground">#ECE5DD</color>
+    <color name="inputBackground">#5C28C2A0</color>
+    <color name="sent">#ebf3ff</color>
+    <color name="received">#f7f7f7</color>
+    <color name="received_stroke">#280C46C4</color>
+
+    <color name="green">#0B710F</color>
+    <color name="red">#F31707</color>
+    <color name="sky_blue">#87CEEB</color>
+</resources>

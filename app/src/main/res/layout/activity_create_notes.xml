@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.LoginTypeActivity"
+        android:orientation="vertical"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_120sdp"
+            android:background="@drawable/top_rounded">
+
+            <LinearLayout
+                android:id="@+id/rlHeader"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:orientation="horizontal"
+                android:background="@color/white"
+
+                >
+
+                <ImageView
+                    android:id="@+id/ivMenu"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginHorizontal="@dimen/_15sdp"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/_3sdp"
+                    app:srcCompat="@drawable/ic_back"
+                    app:tint="@color/primary_color" />
+
+
+                <TextView
+                    android:id="@+id/txt_title"
+                    android:layout_width="0sp"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent"
+                    android:gravity="center|start"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:singleLine="true"
+                    android:text="Notes and Events"
+                    android:textAllCaps="true"
+                    android:textColor="@color/primary_color"
+                    android:textSize="@dimen/_15ssp"
+                    android:textStyle="bold"
+                    />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_120sdp"
+            android:layout_marginTop="-80dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@drawable/round_top"
+
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_gravity="center"
+                android:src="@drawable/logo"
+                />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/_10sdp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_bg"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_10sdp"
+
+
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:text="Craete Notes and Events"
+                        android:drawableEnd="@drawable/right_arrow"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:layout_gravity="center|start"
+                        android:gravity="center|start"
+                        android:textSize="@dimen/_15ssp" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="Organize class notes into notebooks ... Use Evernote as a digital binder where you can save all your coursework, school info, schedules, and anything else you ...."
+                        android:layout_gravity="center|start"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:gravity="center|start"
+                        android:textSize="@dimen/_11ssp" />
+
+                </LinearLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Notes"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@color/white"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.TextInputLayout.Rounded"
+                    >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_100sdp"
+                        android:textSize="@dimen/_13ssp"
+                        android:textColor="@color/black"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <TextView
+                    android:id="@+id/txt_wallet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:singleLine="true"
+                    android:text="Upload File"
+                    android:layout_gravity="center|start"
+                    android:gravity="center|start"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_11ssp"
+                    android:layout_marginTop="@dimen/_10sdp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    >
+
+                    <TextView
+                        android:id="@+id/iv_image"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:background="@drawable/edit_text_bg"
+                        android:text="Choose File"
+                        android:layout_gravity="center|end"
+                        android:gravity="center"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:backgroundTint="@color/primary_color"
+                        android:textSize="@dimen/_7ssp" />
+
+                    <TextView
+                        android:id="@+id/txt_filename"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:singleLine="true"
+                        android:text="No file selected"
+                        android:layout_gravity="center|start"
+                        android:gravity="center|start"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/_10ssp"
+                        android:layout_marginStart="@dimen/_5sdp" />
+
+                </LinearLayout>
+
+
+
+
+
+                <TextView
+                    android:id="@+id/login"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:text="Create"
+                    android:background="@drawable/btn_bg"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="@dimen/_15ssp" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+
+    </LinearLayout>
+</layout>

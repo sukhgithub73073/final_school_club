@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/dynamic_frame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_120sdp"
+                    android:background="@drawable/top_rounded">
+
+                    <LinearLayout
+                        android:id="@+id/rlHeader"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:orientation="horizontal"
+                        android:background="@color/white"
+
+                        >
+
+                        <ImageView
+                            android:id="@+id/back"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginHorizontal="@dimen/_15sdp"
+                            android:layout_gravity="center"
+                            android:padding="@dimen/_3sdp"
+                            app:srcCompat="@drawable/ic_back"
+                            app:tint="@color/primary_color" />
+
+
+                        <TextView
+                            android:id="@+id/txt_title"
+                            android:layout_width="0sp"
+                            android:layout_height="40dp"
+                            android:layout_weight="2"
+                            android:gravity="center|start"
+                            android:paddingStart="@dimen/_5sdp"
+                            android:singleLine="true"
+                            android:text="Student Profile"
+                            android:layout_gravity="center"
+                            android:textAllCaps="true"
+                            android:textColor="@color/primary_color"
+                            android:textSize="@dimen/_15ssp"
+                            android:textStyle="bold" />
+
+
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_120sdp"
+                    android:layout_marginTop="-80dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:background="@drawable/round_top"
+
+                    >
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/collage_logo"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_130sdp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/logo"
+                        />
+
+
+
+
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/school_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/_5sdp"
+                    android:singleLine="true"
+                    android:text=""
+                    android:layout_gravity="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/primary_color"
+                    android:textSize="@dimen/_14ssp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tab_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        app:tabTextColor="@color/primary_color" >
+
+                    </com.google.android.material.tabs.TabLayout>
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/view_pager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_10sdp"
+                        />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</layout>

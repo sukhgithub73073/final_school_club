@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_GPS" />
+    <uses-permission android:name="android.permission.ACCESS_ASSISTED_GPS" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="ANDROID.PERMISSION.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="ANDROID.PERMISSION.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="ANDROID.PERMISSION.WRITE_MEDIA_IMAGES" />
+
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="33"
+        tools:ignore="ProtectedPermissions"
+        tools:replace="android:maxSdkVersion" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
+
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:forceDarkAllowed="true"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@drawable/logo"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ESchool"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:icon ,android:theme ,android:roundIcon"
+        tools:targetApi="31">
+
+        <receiver android:name=".reciever.NetworkChangeReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".activities.staff.student.SignUpStudentActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.staff.teacher.SignUpStaffActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.staff.principle.PrincipleMainActivity"
+            android:exported="false" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.qwerty.school_club.provider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"
+                tools:replace="android:resource" />
+        </provider>
+
+        <activity
+            android:name=".activities.staff.class_section.SubjectTeacherActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.staff.class_section.MonitorListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.staff.class_section.ClassStudentListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.timetable.ViewTimeTableActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.staff.leave.AddLeaveActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.staff.leave.LeaveListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.complaints.ComplaintsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.staff.class_section.AddSubjectActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.staff.settings.class_setting.SubjectByGrpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.staff.settings.class_setting.ClassByGrpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.staff.register.SchoolInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.staff.settings.SalarySettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.staff.settings.FeeSettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.staff.settings.AttendanceSettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.staff.settings.TimetablesSettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.staff.settings.ClassSettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.TestCaptureActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.staff.register.CollageRegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".chatboat.ChatBoatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ForgotActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.staff.student.StudentProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.student.attendance.SubjectAttendanceActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+        <activity
+            android:name=".activities.staff.school.AddSessionsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.staff.school.AddSchoolActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.staff.school.SchoolListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.staff.settings.ChangeSessionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.staff.class_section.AddClassGroupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.staff.class_section.ClassGroupListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".tables.SimpleTable"
+            android:label="@string/simple_adapter" />
+        <activity
+            android:name=".tables.StyleTable"
+            android:label="@string/style_adapter" />
+        <activity
+            android:name=".tables.FamilyTable"
+            android:label="@string/family_adapter" />
+        <activity
+            android:name=".activities.TestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.staff.parents.ParentsListActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.staff.attendance.AttendanceMonthlyActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.staff.class_section.AddClassActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.staff.class_section.ClassListActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.staff.teacher.SalaryDisActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.staff.teacher.TeacherProfileActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.staff.teacher.TeacherListActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.staff.student.PromotionActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.staff.student.FeesCollectionActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.staff.student.StudentListActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.staff.ProfileActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.staff.CreateNotesActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.staff.attendance.AttendanceActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.staff.CreateHomeWorkActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.staff.StaffMainActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.CreateProfileActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.MainActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.LoginActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.LoginTypeActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
+        <service
+            android:name=".firebase.FirebaseMessaging"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>

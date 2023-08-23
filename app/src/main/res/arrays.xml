@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="scene_1">
+        <item>@drawable/capture_bg</item>
+
+    </integer-array>
+
+    <integer-array name="scene_2">
+        <item>@drawable/capture_bg</item>
+
+    </integer-array>
+
+    <integer-array name="scene_3">
+        <item>@drawable/capture_bg</item>
+
+    </integer-array>
+</resources>

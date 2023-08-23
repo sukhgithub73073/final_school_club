@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.LoginTypeActivity"
+        android:orientation="vertical"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_120sdp"
+            android:background="@drawable/top_rounded">
+
+            <LinearLayout
+                android:id="@+id/rlHeader"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:orientation="horizontal"
+                android:background="@color/white"
+
+                >
+
+                <ImageView
+                    android:id="@+id/back"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginHorizontal="@dimen/_15sdp"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/_3sdp"
+                    app:srcCompat="@drawable/ic_back"
+                    app:tint="@color/primary_color" />
+
+
+                <TextView
+                    android:id="@+id/txt_title"
+                    android:layout_width="0sp"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent"
+                    android:gravity="center|start"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:singleLine="true"
+                    android:text="Create Class"
+                    android:textAllCaps="true"
+                    android:textColor="@color/primary_color"
+                    android:textSize="@dimen/_15ssp"
+                    android:textStyle="bold"
+                    />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_120sdp"
+            android:layout_marginTop="-80dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@drawable/round_top"
+
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/logo"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_gravity="center"
+                android:src="@drawable/logo"
+                />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/_10sdp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_bg"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_10sdp"
+
+
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:text="Craete New Class"
+                        android:drawableEnd="@drawable/right_arrow"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:layout_gravity="center|start"
+                        android:gravity="center|start"
+                        android:textSize="@dimen/_15ssp" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="A school class typically refers to a group of students who are taught by a teacher in a specific subject or course. These classes can range in size, subject matter, and grade level depending on the school and curriculum."
+                        android:layout_gravity="center|start"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:gravity="center|start"
+                        android:textSize="@dimen/_11ssp" />
+
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        >
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_class_grp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:hint="Class Group"
+                            android:inputType="none" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <Spinner
+                        android:id="@+id/spi_class_grp"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@android:color/transparent"
+                        android:spinnerMode="dialog"
+                        />
+
+
+                </RelativeLayout>
+
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Class Name"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@color/white"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.TextInputLayout.Rounded"
+                    >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/class_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_13ssp"
+                        android:textColor="@color/black"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+                <TextView
+                    android:id="@+id/submit"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:text="Create"
+                    android:background="@drawable/btn_bg"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="@dimen/_15ssp" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+
+    </LinearLayout>
+</layout>

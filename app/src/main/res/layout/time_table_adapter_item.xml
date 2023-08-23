@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="model"
+            type="com.op.eschool.models.timetable_model.TimeTableModel" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_35sdp"
+        android:orientation="horizontal"
+        android:background="@drawable/squre_stroke_bg"
+        >
+        <TextView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:singleLine="true"
+            android:text='@{"" + model.period}'
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13ssp"
+            android:paddingStart="@dimen/_3sdp"
+            android:layout_marginTop="@dimen/_2sdp"
+            />
+        <View
+            android:layout_width="@dimen/_1sdp"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            />
+        <TextView
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text='@{model.timeFrom}'
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13ssp"
+            android:layout_marginTop="@dimen/_2sdp"
+            />
+        <View
+            android:layout_width="@dimen/_1sdp"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            />
+        <TextView
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text='@{model.timeTo}'
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13ssp"
+            android:layout_marginTop="@dimen/_2sdp"
+            />
+
+        <View
+            android:layout_width="@dimen/_1sdp"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            />
+
+
+        <TextView
+            android:id="@+id/txt_subject"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textStyle="bold"
+            android:text='@{model.subject.equalsIgnoreCase("Select Subject")?"--":model.subject}'
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13ssp"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:visibility="gone"
+            />
+
+
+        <TextView
+            android:id="@+id/et_subject"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/_5sdp"
+            android:hint="Subject"
+            android:layout_gravity="center|start"
+            android:gravity="center|start"
+            android:drawableEnd="@drawable/down_arrow"
+
+
+
+            />
+
+
+
+
+        <View
+            android:layout_width="@dimen/_1sdp"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            />
+
+        <TextView
+            android:id="@+id/txt_teacher"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textStyle="bold"
+            android:text='@{model.teacher.equalsIgnoreCase("Select Teacher")?"--":model.teacher}'
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13ssp"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:visibility="gone"
+            />
+        <TextView
+            android:id="@+id/et_teacher"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/_5sdp"
+            android:hint="Teacher"
+            android:layout_gravity="center|start"
+            android:gravity="center|start"
+            android:drawableEnd="@drawable/down_arrow"
+
+
+
+            />
+
+
+
+
+        <View
+            android:layout_width="@dimen/_1sdp"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            />
+
+        <TextView
+            android:id="@+id/txt_sub_subject"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textStyle="bold"
+            android:text='--'
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13ssp"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:visibility="gone"
+            />
+        <TextView
+            android:id="@+id/et_sub_subject"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/_5sdp"
+            android:hint="Sub Subject"
+            android:layout_gravity="center|start"
+            android:gravity="center|start"
+            android:drawableEnd="@drawable/down_arrow"
+
+
+
+            />
+
+
+
+
+
+
+
+
+
+
+
+
+    </LinearLayout>
+</layout>

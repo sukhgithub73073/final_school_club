@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_acc"
+            app:endIconMode="password_toggle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Account Number"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.TextInputLayout.Rounded"
+            android:background="@color/white"
+            android:password="true"
+
+             >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_acc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_13ssp"
+                android:textColor="@color/black"
+                android:inputType="number"
+                android:digits="0123456789"
+                android:singleLine="true"
+
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            app:endIconMode="password_toggle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Confirm Account Number"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@color/white"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.TextInputLayout.Rounded"
+            android:password="true"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/confirm_acc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_13ssp"
+                android:singleLine="true"
+                android:inputType="number"
+                android:digits="0123456789"
+                android:textColor="@color/black"
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Bank Name"
+            android:background="@color/white"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.TextInputLayout.Rounded"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_bank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_13ssp"
+                android:focusable="false"
+                android:inputType="none"
+                android:textColor="@color/black"
+                android:singleLine="true"
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="IFSC"
+            android:background="@color/white"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.TextInputLayout.Rounded"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_ifsc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_13ssp"
+                android:textColor="@color/black"
+                android:singleLine="true"
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Holder Name"
+            android:background="@color/white"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.TextInputLayout.Rounded"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_13ssp"
+                android:textColor="@color/black"
+                android:singleLine="true"
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <LinearLayout
+            android:id="@+id/check_box_and_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_2sdp">
+
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                />
+            <TextView
+                android:id="@+id/termsOfAgreement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="I do accept the Terms of Conditions"
+                android:singleLine="true"
+                android:textColor="@color/primary_color"
+                android:textSize="@dimen/_11ssp"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/btn_next"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:text="Register"
+            android:background="@drawable/btn_bg"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="@dimen/_15ssp" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_400sdp"/>
+
+
+    </LinearLayout>
+
+
+</layout>

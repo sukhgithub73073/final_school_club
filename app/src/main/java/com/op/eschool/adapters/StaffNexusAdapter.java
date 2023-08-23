@@ -1,0 +1,332 @@
+package com.op.eschool.adapters;
+
+
+import android.app.Activity;
+import android.content.Context;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.op.eschool.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class StaffNexusAdapter extends BaseTableAdapter {
+    Activity activity ;
+    Context context ;
+    private final NexusTypes familys[];
+    private final String headers[] = {
+            "Name",
+            "Father Name",
+            "Photo",
+            "Gender",
+            "QR-Code",
+            "Unique ID",
+            "Mobile",
+            "Joining Date",
+            "Designation",
+            "Class",
+            "Verification",
+            "Verification Date"
+
+
+    };
+    private final int[] widths = {
+            100,
+            100,
+            100,
+            100,
+            150,
+            100,
+            120,
+            120,
+            150,
+            120,
+            120,
+            120,
+
+
+    };
+    private final float density;
+
+    public StaffNexusAdapter(Activity activity , Context context) {
+        this.activity = activity ;
+        this.context = context ;
+        familys = new NexusTypes[] {
+                new NexusTypes(""),
+                new NexusTypes(""),
+                new NexusTypes(""),
+        };
+
+        density = context.getResources().getDisplayMetrics().density;
+
+        familys[0].list.add(new Nexus("Sunil Kumar","Ramesh Kumar","--","Male","--","46HHGH545","700000000","2 March,2022","--","--","--","--"));
+        familys[0].list.add(new Nexus("Sunil Kumar","Ramesh Kumar","--","Male","--","46HHGH545","700000000","2 March,2022","--","--","--","--"));
+        familys[0].list.add(new Nexus("Sunil Kumar","Ramesh Kumar","--","Male","--","46HHGH545","700000000","2 March,2022","--","--","--","--"));
+        familys[0].list.add(new Nexus("Sunil Kumar","Ramesh Kumar","--","Male","--","46HHGH545","700000000","2 March,2022","--","--","--","--"));
+        familys[0].list.add(new Nexus("Sunil Kumar","Ramesh Kumar","--","Male","--","46HHGH545","700000000","2 March,2022","--","--","--","--"));
+        familys[0].list.add(new Nexus("Sunil Kumar","Ramesh Kumar","--","Male","--","46HHGH545","700000000","2 March,2022","--","--","--","--"));
+        familys[0].list.add(new Nexus("Sunil Kumar","Ramesh Kumar","--","Male","--","46HHGH545","700000000","2 March,2022","--","--","--","--"));
+        familys[0].list.add(new Nexus("Sunil Kumar","Ramesh Kumar","--","Male","--","46HHGH545","700000000","2 March,2022","--","--","--","--"));
+        familys[0].list.add(new Nexus("Sunil Kumar","Ramesh Kumar","--","Male","--","46HHGH545","700000000","2 March,2022","--","--","--","--"));
+        familys[0].list.add(new Nexus("Sunil Kumar","Ramesh Kumar","--","Male","--","46HHGH545","700000000","2 March,2022","--","--","--","--"));
+        familys[0].list.add(new Nexus("Sunil Kumar","Ramesh Kumar","--","Male","--","46HHGH545","700000000","2 March,2022","--","--","--","--"));
+        familys[0].list.add(new Nexus("Sunil Kumar","Ramesh Kumar","--","Male","--","46HHGH545","700000000","2 March,2022","--","--","--","--"));
+        familys[0].list.add(new Nexus("Sunil Kumar","Ramesh Kumar","--","Male","--","46HHGH545","700000000","2 March,2022","--","--","--","--"));
+        familys[0].list.add(new Nexus("Sunil Kumar","Ramesh Kumar","--","Male","--","46HHGH545","700000000","2 March,2022","--","--","--","--"));
+        familys[0].list.add(new Nexus("Sunil Kumar","Ramesh Kumar","--","Male","--","46HHGH545","700000000","2 March,2022","--","--","--","--"));
+        familys[0].list.add(new Nexus("Sunil Kumar","Ramesh Kumar","--","Male","--","46HHGH545","700000000","2 March,2022","--","--","--","--"));
+        familys[0].list.add(new Nexus("Sunil Kumar","Ramesh Kumar","--","Male","--","46HHGH545","700000000","2 March,2022","--","--","--","--"));
+        familys[0].list.add(new Nexus("Sunil Kumar","Ramesh Kumar","--","Male","--","46HHGH545","700000000","2 March,2022","--","--","--","--"));
+
+        familys[1].list.add(new Nexus("Sunil Kumar","Ramesh Kumar","--","Male","--","46HHGH545","700000000","2 March,2022","--","--","--","--"));
+        familys[1].list.add(new Nexus("Sunil Kumar","Ramesh Kumar","--","Male","--","46HHGH545","700000000","2 March,2022","--","--","--","--"));
+        familys[1].list.add(new Nexus("Sunil Kumar","Ramesh Kumar","--","Male","--","46HHGH545","700000000","2 March,2022","--","--","--","--"));
+        familys[1].list.add(new Nexus("Sunil Kumar","Ramesh Kumar","--","Male","--","46HHGH545","700000000","2 March,2022","--","--","--","--"));
+        familys[2].list.add(new Nexus("Sunil Kumar","Ramesh Kumar","--","Male","--","46HHGH545","700000000","2 March,2022","--","--","--","--"));
+
+    }
+
+    @Override
+    public int getRowCount() {
+        return familys[0].list.size() ;
+    }
+
+    @Override
+    public int getColumnCount() {
+        return 11;
+    }
+
+    @Override
+    public View getView(int row, int column, View convertView, ViewGroup parent) {
+        final View view;
+        Log.w("getView", "getItemViewType: >>"+ getItemViewType(row, column));
+
+        switch (getItemViewType(row, column)) {
+            case 0:
+                view = getFirstHeader(row, column, convertView, parent);
+                break;
+            case 1:
+                view = getHeader(row, column, convertView, parent);
+                break;
+            case 2:
+                view = getFirstBody(row, column, convertView, parent);
+                break;
+            case 3:
+                view = getBody(row, column, convertView, parent);
+                break;
+            case 4:
+                view = getFamilyView(row, column, convertView, parent);
+                break;
+            default:
+                throw new RuntimeException("wtf?");
+        }
+        return view;
+    }
+
+    private View getFirstHeader(int row, int column, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            convertView = activity.getLayoutInflater().inflate(R.layout.item_table_header_first, parent, false);
+        }
+        ((TextView) convertView.findViewById(android.R.id.text1)).setText(headers[0]);
+        return convertView;
+    }
+
+    private View getHeader(int row, int column, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            convertView = activity.getLayoutInflater().inflate(R.layout.item_table_header, parent, false);
+        }
+        ((TextView) convertView.findViewById(android.R.id.text1)).setText(headers[column + 1]);
+        return convertView;
+    }
+
+    private View getFirstBody(int row, int column, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            convertView = activity.getLayoutInflater().inflate(R.layout.item_table_first, parent, false);
+        }
+        convertView.setBackgroundResource(row % 2 == 0 ? R.drawable.bg_table_color1 : R.drawable.bg_table_color2);
+        ((TextView) convertView.findViewById(android.R.id.text1)).setText(getDevice(row).data[column + 1]);
+        return convertView;
+    }
+
+    private View getBody(int row, int column, View convertView, ViewGroup parent) {
+
+        if (column == 7 ){
+           // if (convertView == null) {
+                convertView = activity.getLayoutInflater().inflate(R.layout.item_table_spinner_staff, parent, false);
+           // }
+            convertView.setBackgroundResource(row % 2 == 0 ? R.drawable.bg_table_color1 : R.drawable.bg_table_color2);
+//            Spinner spinner =  convertView.findViewById(R.id.spi_text) ;
+//            //spinner.setSelected(getDevice(row).data[column + 1]);
+//            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                @Override
+//                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                    String selectedCity= (String) parent.getAdapter().getItem(position);
+//                    //// getDevice(row).data[column + 1]
+//                }
+//                @Override
+//                public void onNothingSelected(AdapterView<?> parent) {
+//                }
+//            });
+
+            //((Spinner) convertView.findViewById(R.id.spi_text))
+
+        }else {
+            //if (convertView == null) {
+                convertView = activity.getLayoutInflater().inflate(R.layout.item_table, parent, false);
+           // }
+            convertView.setBackgroundResource(row % 2 == 0 ? R.drawable.bg_table_color1 : R.drawable.bg_table_color2);
+            ((TextView) convertView.findViewById(android.R.id.text1)).setText(getDevice(row).data[column + 1]);
+
+        }
+
+
+
+        return convertView;
+    }
+
+    private View getFamilyView(int row, int column, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            convertView = activity.getLayoutInflater().inflate(R.layout.item_table_family, parent, false);
+        }
+        final String string;
+        if (column == -1) {
+            string = getFamily(row).name;
+        } else {
+            string = "";
+        }
+        ((TextView) convertView.findViewById(android.R.id.text1)).setText(string);
+        return convertView;
+    }
+
+    @Override
+    public int getWidth(int column) {
+        return Math.round(widths[column + 1] * density);
+    }
+
+    @Override
+    public int getHeight(int row) {
+        final int height;
+        if (row == -1) {
+            height = 35;
+        } else if (isFamily(row)) {
+            height = 25;
+        } else {
+            height = 45;
+        }
+        return Math.round(height * density);
+    }
+
+    @Override
+    public int getItemViewType(int row, int column) {
+        final int itemViewType;
+        if (row == -1 && column == -1) {
+            itemViewType = 0;
+        } else if (row == -1) {
+            itemViewType = 1;
+        } else if (isFamily(row)) {
+            itemViewType = 4;
+        } else if (column == -1) {
+            itemViewType = 2;
+        } else {
+            itemViewType = 3;
+        }
+        return itemViewType;
+    }
+
+    private boolean isFamily(int row) {
+        int family = 0;
+        while (row > 0) {
+            row -= familys[family].size() + 1;
+            family++;
+        }
+        return row == 0;
+    }
+
+    private NexusTypes getFamily(int row) {
+        int family = 0;
+        while (row >= 0) {
+            row -= familys[family].size() + 1;
+            family++;
+        }
+        return familys[family - 1];
+    }
+
+    private Nexus getDevice(int row) {
+        int family = 0;
+        while (row >= 0) {
+            row -= familys[family].size() + 1;
+            family++;
+        }
+        family--;
+        return familys[family].get(row + familys[family].size());
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return 11;
+    }
+
+
+
+
+    private class NexusTypes {
+        private final String name;
+        private final List<Nexus> list;
+
+        NexusTypes(String name) {
+            this.name = name;
+            list = new ArrayList<Nexus>();
+        }
+
+        public int size() {
+            return list.size();
+        }
+
+        public Nexus get(int i) {
+            return list.get(i);
+        }
+    }
+
+    private class Nexus {
+        private final String[] data;
+
+
+        private Nexus(
+
+                String Name,
+                String Father_Name,
+                String Photo,
+                String Gender,
+                String QR_Code,
+                String Unique_ID,
+                String Mobile,
+                String Joining_Date,
+                String Designation,
+                String Class_Name,
+                String Verification,
+                String Verification_Date
+        ) {
+            
+            data = new String[] {
+                    Name,
+                    Father_Name,
+                    Photo,
+                    Gender,
+                    QR_Code,
+                    Unique_ID,
+                    Mobile,
+                    Joining_Date,
+                    Designation,
+                    Class_Name,
+                    Verification,
+                    Verification_Date
+
+            };
+        }
+    }
+
+    
+}

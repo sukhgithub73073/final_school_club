@@ -10,6 +10,10 @@ public class Constants {
     public static final String ANIMATED_DAILOG_TYPE_PENDING = "PENDING" ;
     public static final String ANIMATED_DAILOG_TYPE_FAILED = "FAILED" ;
     public static final String ANIMATED_DAILOG_TYPE_SUCESS = "SUCCESS" ;
+    public static final String DB_STUDENT_OFFINE_LIST = "STUDENT_OFFINE_LIST" ;
+    public static final String DB_STAFF_OFFINE_LIST = "STAFF_OFFINE_LIST" ;
+    public static final String DB_APP_OPEN_AT = "DB_APP_OPEN_AT" ;
+    public static final String DB_SELECTED_GROUP_CLASS = "DB_SELECTED_GROUP_CLASS" ;
 
 
 }

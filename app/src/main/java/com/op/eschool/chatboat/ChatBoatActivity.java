@@ -111,7 +111,7 @@ public class ChatBoatActivity extends BaseActivity {
         }catch (Exception e){e.printStackTrace();}
         Map<String , String> map = new HashMap<>() ;
         map.put("type" ,"ChatBot") ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         map.put("Message" ,message) ;
         map.put("Location" ,Location) ;
 

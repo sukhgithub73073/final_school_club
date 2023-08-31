@@ -60,7 +60,7 @@ public class AddSessionsActivity extends BaseActivity {
 
         String url = "AddSchlSession" ;
         Map<String , String> map = new HashMap<>() ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         map.put("Session" ,"" + binding.SessionName.getText().toString()) ;
         map.put("SchoolId" ,schoolModel.getUid()) ;
         globalLoader.showLoader();
@@ -69,7 +69,7 @@ public class AddSessionsActivity extends BaseActivity {
 
     private void ClgList() {
         Map<String , String> map = new HashMap<>() ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         globalLoader.showLoader();
     }
 

@@ -72,7 +72,7 @@ public class PromotionActivity extends BaseActivity {
 
             Map<String , String> map = new HashMap<>() ;
             map.put("type" ,"UpStuClss") ;
-            map.put("Unqid" , commonDB.getString("Unqid")) ;
+            map.put("Unqid" , loginUserModel.collageUnqid) ;
             map.put("StudentId" ,""+StudentId) ;
             map.put("Class" ,""+ selectedClass.getClassId()) ;
             String json = new Gson().toJson(map) ;
@@ -130,7 +130,7 @@ public class PromotionActivity extends BaseActivity {
     private void getStudentList() {
         Map<String , String> map = new HashMap<>() ;
         map.put("type" ,"StdntTbl") ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         String json = new Gson().toJson(map) ;
         globalLoader.showLoader();
         webSocketManager.sendMessage(json , res->{

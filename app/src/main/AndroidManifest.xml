@@ -44,6 +44,7 @@
     </queries>
 
     <application
+        android:name=".base.MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:forceDarkAllowed="true"
@@ -66,6 +67,8 @@
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
             </intent-filter>
         </receiver>
+
+
 
         <activity
             android:name=".activities.staff.student.SignUpStudentActivity"
@@ -343,6 +346,15 @@
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
+        </service>
+
+        <service
+            android:name=".services.StudentRegisterService"
+            android:exported="true">
+        </service>
+        <service
+            android:name=".services.StaffRegisterService"
+            android:exported="true">
         </service>
     </application>
 

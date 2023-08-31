@@ -1,7 +1,9 @@
 package com.op.eschool.activities.staff.teacher;
 
+import static com.op.eschool.base.MyApplication.staffRegisterList;
 import static com.op.eschool.util.Constants.ANIMATED_DAILOG_TYPE_FAILED;
 import static com.op.eschool.util.Constants.ANIMATED_DAILOG_TYPE_SUCESS;
+import static com.op.eschool.util.Constants.DB_STAFF_OFFINE_LIST;
 import static com.op.eschool.util.Utility.createImageFile;
 import static com.op.eschool.util.Utility.fromJson;
 import static com.op.eschool.util.Utility.groupFromList;
@@ -58,9 +60,12 @@ import com.op.eschool.models.school_models.SchoolModel;
 import com.op.eschool.models.staff.StaffModel;
 import com.op.eschool.models.student.StudentModel;
 import com.op.eschool.retrofit.RetrofitClient;
+import com.op.eschool.services.StaffRegisterService;
+import com.op.eschool.services.StudentRegisterService;
 import com.op.eschool.util.Constants;
 import com.op.eschool.util.FLog;
 import com.op.eschool.util.FToast;
+import com.op.eschool.util.FileUtils;
 import com.op.eschool.util.GlobalLoader;
 import com.op.eschool.util.ImageConvert;
 import com.op.eschool.util.PermissionUtil;
@@ -248,13 +253,9 @@ public class SignUpStaffActivity extends BaseActivity {
         } catch (Exception e){
             e.printStackTrace();
         }
-
         return encodeString;
     }
-
-
     private void AdStaffReg() {
-
         String ImageExt ="" ,Image="" ;
         if (uploadFile != null){
             ImageExt = MimeTypeMap.getFileExtensionFromUrl(uploadFile.toString());
@@ -268,7 +269,9 @@ public class SignUpStaffActivity extends BaseActivity {
             map.put("type" ,"UpStaffEdLs") ;
             map.put("StaffId" ,""+editModel.staffId) ;
         }
-
+        if (ImageExt.equalsIgnoreCase("")){
+            ImageExt = Utility.getFileExtension(uploadFile) ;
+        }
         map.put("FullName" , binding.onwer.getText().toString().toUpperCase()) ;
         map.put("DOB" , binding.dob.getText().toString().toUpperCase()) ;
         map.put("Gender" ,"" ) ;
@@ -292,32 +295,44 @@ public class SignUpStaffActivity extends BaseActivity {
         map.put("BankName" ,"") ;
         map.put("IfscCode" ,"") ;
         map.put("AccountHldr" ,"") ;
-
         FLog.w("AdStaffReg" , "map>>" + new Gson().toJson(map)) ;
         map.put("Image" ,"" + Image) ;
         String json = new Gson().toJson(map) ;
-        globalLoader.showLoader();
-        webSocketManager.sendMessage(json , res->{
-            runOnUiThread(()->{
-                try {
-                    globalLoader.dismissLoader();
-                    CommonResponse commonResponse = Utility.convertResponse(res) ;
-                    if (commonResponse.getStatus().equalsIgnoreCase(Constants.RESPONSE_SUCCESS)){
-                        String des = editModel != null?"You has been successfully update your profile":"You has been successfully registered please wait for approvale" ;
-                        Utility.showAnimatedDialog(ANIMATED_DAILOG_TYPE_SUCESS , SignUpStaffActivity.this , ""+des ,()->{
-                            finish() ;
-                        }) ;
-                    }else {
-                        Utility.showAnimatedDialog(ANIMATED_DAILOG_TYPE_FAILED , SignUpStaffActivity.this , ""+commonResponse.getMsg() ,()->{
-                        }) ;
-                    }
-                }catch (Exception e){e.printStackTrace();}
-            }) ;
-
-        });
-
+        if (editModel == null && binding.checkOffline.isChecked()) {
+            staffRegisterList.add(json) ;
+            //add to local list offline register here
+//            List<String> stringList = commonDB.getStringList(DB_STAFF_OFFINE_LIST);
+//            stringList.add(json) ;
+//            commonDB.putStringList(DB_STAFF_OFFINE_LIST ,stringList) ;
+            Utility.showAnimatedDialog(ANIMATED_DAILOG_TYPE_SUCESS , SignUpStaffActivity.this , "You have been successfully registered. Please wait for approval" ,()->{
+                Intent serviceIntent = new Intent(this, StaffRegisterService.class);
+                startService(serviceIntent);
+                if (commonDB.getString(Constants.LOGIN_RESPONSE).equalsIgnoreCase("")){
+                    Utility.userLogout(getApplicationContext());
+                }else{
+                    Utility.gotoHome(getApplicationContext());
+                }
+            });
+        }else{
+            globalLoader.showLoader();
+            webSocketManager.sendMessage(json , res->{
+                runOnUiThread(()->{
+                    try {
+                        globalLoader.dismissLoader();
+                        CommonResponse commonResponse = Utility.convertResponse(res) ;
+                        if (commonResponse.getStatus().equalsIgnoreCase(Constants.RESPONSE_SUCCESS)){
+                            String des = editModel != null?"You has been successfully update your profile":"You have been successfully registered. Please wait for approval" ;
+                            Utility.showAnimatedDialog(ANIMATED_DAILOG_TYPE_SUCESS , SignUpStaffActivity.this , ""+des ,()->{
+                                finish() ;
+                            }) ;
+                        }else {
+                            Utility.showAnimatedDialog(ANIMATED_DAILOG_TYPE_FAILED , SignUpStaffActivity.this , ""+commonResponse.getMsg() ,()->{
+                            }) ;
+                        }
+                    }catch (Exception e){e.printStackTrace();}
+                }) ;
+            });}
     }
-
     private void PincodeData() {
 
         globalLoader.showLoader();
@@ -339,18 +354,15 @@ public class SignUpStaffActivity extends BaseActivity {
                         }
 
                     }
-
                 }catch (Exception e){
                     e.printStackTrace();
                 }
             }
-
             @Override
             public void onFailure(Call<List<PincodeModel>> call, Throwable t) {
                 globalLoader.dismissLoader();
             }
         });
-
     }
     List<PostOffice> filterTehsilList(List<PostOffice> list){
         List<PostOffice> rtnList = new ArrayList<>() ;
@@ -388,11 +400,8 @@ public class SignUpStaffActivity extends BaseActivity {
             tehsil.setHighlightSelectedItem(true);
             tehsil.show();
         });
-
-
     }
     private void initSchool() {
-
         try {
             String res = commonDB.getString("GetCollageDetail");
             ArrayList<SchoolModel> list = (ArrayList<SchoolModel>) fromJson(res,
@@ -417,14 +426,8 @@ public class SignUpStaffActivity extends BaseActivity {
                 binding.etFname.setText(""+ editModel.getFatherName());
                 binding.qualification.setText(""+ editModel.getQualification());
                 binding.etMobile.setText(""+ editModel.getMobileNumber());
-
-
             }
         }catch (Exception e){e.printStackTrace();}
-
-
-
-
     }
     void datePickerWithType(){
         DatePickerDialog dpd = DatePickerDialog.newInstance(
@@ -494,21 +497,6 @@ public class SignUpStaffActivity extends BaseActivity {
                     galleryIntent.launch(pickPhoto);
                 }
 
-//               DialogModel dialogModel = new DialogModel(SignUpStudentActivity.this ,"Take Image","Take photo from Gallery or take new picture using Camera !","Camera","Gallery", t->{
-//                   if (t.equalsIgnoreCase("POSTIVE")){
-//                       File image = createImageFile();
-////                    imgUri = Uri.fromFile(image);
-//                       Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                       imgUri = FileProvider.getUriForFile(this,getPackageName() + ".provider", image);
-//
-//                       intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);
-//                       cameraIntent.launch(intent);
-//                   }else{
-//                       Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                       galleryIntent.launch(pickPhoto);
-//                   }
-//               } ) ;
-//               Utility.wantTOSureDialog(dialogModel) ;
             });
 
         }
@@ -551,38 +539,21 @@ public class SignUpStaffActivity extends BaseActivity {
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), resultUri);
-                    removeBG(bitmap) ;
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    uploadFile = FileUtils.getFileFromUri(getApplicationContext(), resultUri) ;
+                    Glide.with(getApplicationContext())
+                            .load(uploadFile)
+                            .apply(new RequestOptions().placeholder(R.drawable.placeholder_upload))
+                            .into(binding.image)   ;
+                    File compressFile = Utility.getCompressFile(getApplicationContext() , uploadFile ) ;
+                    if (compressFile != null){
+                        uploadFile = compressFile ;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-
             }
+
         }
-    }
-    void removeBG(Bitmap bitmap){
-        binding.progressBar.setVisibility(View.VISIBLE) ;
-        new ImageConvert().ImageConvertLocal(getApplicationContext() , bitmap, new BgRemoveInterface() {
-            @Override
-            public void onSuccess(@NonNull Bitmap bitmap) {
-                try {
-                    binding.progressBar.setVisibility(View.GONE) ;
-                    FLog.w("removeBG" , "onSuccess");
-                    Bitmap bbmp = Utility.loadFormatedImage(getApplicationContext() , binding.image , bitmap);
-                    uploadFile = Utility.bitmapToFile(getApplicationContext() , bbmp ,"img_"+System.currentTimeMillis()) ;
-                    uploadFile = Utility.getCompressFile(getApplicationContext() , uploadFile ) ;
-
-                }catch (Exception e){e.printStackTrace();}
-            }
-
-            @Override
-            public void onFailed(@NonNull Exception exception) {
-                FLog.w("removeBG" , "onFailed" + exception);
-                binding.progressBar.setVisibility(View.GONE) ;
-                Utility.showAnimatedDialog(ANIMATED_DAILOG_TYPE_FAILED , SignUpStaffActivity.this , ""+exception.getMessage() ,()->{
-                }) ;
-            }
-        });
     }
 
 }

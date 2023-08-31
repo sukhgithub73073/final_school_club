@@ -58,7 +58,7 @@ public class ParentsListActivity extends BaseActivity {
 
         Map<String , String> map = new HashMap<>() ;
         map.put("type" ,"PrntTbl") ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         String json = new Gson().toJson(map) ;
 
         if (list.size() == 0){

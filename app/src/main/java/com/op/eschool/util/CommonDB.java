@@ -5,6 +5,13 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 //class for shared pri
 public class CommonDB {
     Context context ;
@@ -37,4 +44,29 @@ public class CommonDB {
     public   Integer getInt(String key){
         return  sharedPreferences.getInt(key , 0) ;
     }
+    public   void putLong(String key , long value){
+        editor.putLong(key, value) ;
+        editor.commit() ;
+    }
+    public   Long getLong(String key){
+        return  sharedPreferences.getLong(key , 0) ;
+    }
+
+
+    public void putStringList(String key, List<String> customList) {
+        Gson gson = new Gson();
+        String json = gson.toJson(customList);
+        editor.putString(key, json);
+        editor.commit() ;
+    }
+
+    public List<String> getStringList(String key) {
+        String json = sharedPreferences.getString(key, null);
+        if (json != null) {
+            Gson gson = new Gson();
+            return gson.fromJson(json, new TypeToken<List<String>>() {}.getType());
+        }
+        return new ArrayList<>() ;
+    }
+
 }

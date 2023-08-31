@@ -182,7 +182,7 @@ public class PrincipleMainActivity extends BaseActivity {
         List<DrawerModel> classSection = new ArrayList<>();
         // classSection.add(new DrawerModel(R.drawable.attendance, "Manage Class Group", new Intent(getApplicationContext() , ClassGroupListActivity.class)));
         classSection.add(new DrawerModel(R.drawable.attendance, "Class List", new Intent(getApplicationContext() , ClassListActivity.class).putExtra("TYPE" , "ClsTbl")));
-        classSection.add(new DrawerModel(R.drawable.attendance, "Student List", new Intent(getApplicationContext() , ClassStudentListActivity.class)));
+        classSection.add(new DrawerModel(R.drawable.attendance, "Student List", new Intent(getApplicationContext() , StudentListActivity.class)));
         classSection.add(new DrawerModel(R.drawable.attendance, "Monitor", new Intent(getApplicationContext() , MonitorListActivity.class)));
         classSection.add(new DrawerModel(R.drawable.attendance, "Class Teacher", new Intent(getApplicationContext() , TeacherListActivity.class)));
         classSection.add(new DrawerModel(R.drawable.attendance, "Subject Teacher", new Intent(getApplicationContext() , SubjectTeacherActivity.class)));

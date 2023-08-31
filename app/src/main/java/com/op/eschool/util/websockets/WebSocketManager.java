@@ -67,6 +67,7 @@ public class WebSocketManager {
                     text= text.replace("staus" ,"status");
                     text= text.replace("[{\"type\": \"ClassGrpAdded\"}," ,"[");
                     text= text.replace("[{\"type\": \"ClassGrpAdded\"}]" ,"[]");
+                    text= text.replace("\\xa0","") ;
                     FLog.w("WebSocketManager"  , "RESPONSE>>>" + text ) ;
                     String finalText = text;
                     activity.runOnUiThread(()->{

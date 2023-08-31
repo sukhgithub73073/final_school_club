@@ -130,7 +130,7 @@ public class ClassStudentListActivity extends BaseActivity {
     private void StdntTblSocket(String type) {
         Map<String , String> map = new HashMap<>() ;
         map.put("type" ,"StdntTbl") ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         String json = new Gson().toJson(map) ;
         try {
             globalLoader.showLoader();
@@ -259,7 +259,7 @@ public class ClassStudentListActivity extends BaseActivity {
     private void UpStuTY(int pos ,StudentModel model, String UpDtType) {
         Map<String , String> map = new HashMap<>() ;
         map.put("type" , "UpStuTY") ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         map.put("StudentId" , ""+model.studentId) ;
         map.put("UpDtType" , ""+UpDtType) ;
         String json = new Gson().toJson(map) ;
@@ -414,7 +414,7 @@ public class ClassStudentListActivity extends BaseActivity {
 
 //        Map<String , String> map = new HashMap<>() ;
 //        map.put("type" ,"ClassGrpAdded") ;
-//        map.put("Unqid" , commonDB.getString("Unqid")) ;
+//        map.put("Unqid" , loginUserModel.collageUnqid) ;
 //        //  globalLoader.showLoader();
 //        String json = new Gson().toJson(map) ;
 //        webSocketManager.sendMessage(json , res->{
@@ -435,7 +435,7 @@ public class ClassStudentListActivity extends BaseActivity {
     private void GetClsWisGrpDt() {
         Map<String , String> map = new HashMap<>() ;
         map.put("type","GetClsWisGrpDt") ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         map.put("GroupId" ,"" + groupModel.getGroupId());
         String json = new Gson().toJson(map) ;
         //globalLoader.showLoader();

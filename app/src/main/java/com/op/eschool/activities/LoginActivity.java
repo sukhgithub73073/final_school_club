@@ -3,6 +3,7 @@ package com.op.eschool.activities;
 import static com.op.eschool.util.Constants.ANIMATED_DAILOG_TYPE_FAILED;
 import static com.op.eschool.util.Constants.ANIMATED_DAILOG_TYPE_PENDING;
 import static com.op.eschool.util.Constants.ANIMATED_DAILOG_TYPE_SUCESS;
+import static com.op.eschool.util.Constants.DB_SELECTED_GROUP_CLASS;
 import static com.op.eschool.util.Utility.fromJson;
 
 import androidx.annotation.NonNull;
@@ -110,9 +111,9 @@ public class LoginActivity extends BaseActivity {
 ////        Pink Perl University
             binding.etUniqe.setText("NP703304");
             binding.etPassword.setText("BT561300");
-////        jj
-//            binding.etUniqe.setText("KW703482");
-//            binding.etPassword.setText("GY323994");
+////        staff
+//            binding.etUniqe.setText("CJ864532");
+//            binding.etPassword.setText("QQ494440");
         }
         binding.login.setOnClickListener(v->{
 //            if (locationDetailModel ==null){
@@ -155,7 +156,6 @@ public class LoginActivity extends BaseActivity {
                     loginUserModel = new Gson().fromJson(res , LoginUserModel.class) ;
                     if (loginUserModel.status.equalsIgnoreCase(Constants.RESPONSE_SUCCESS)){
                         commonDB.putString(Constants.LOGIN_RESPONSE , new Gson().toJson(loginUserModel)) ;
-                        commonDB.putString("Unqid" , "" + binding.etUniqe.getText().toString()) ;
                         commonDB.putString("SELECT_ROLE" , "" +loginUserModel.type) ;
                         GetClsAndGrpDt( pos -> {
                             globalLoader.dismissLoader();
@@ -235,7 +235,8 @@ public class LoginActivity extends BaseActivity {
     void GetClsAndGrpDt(CommonInterface commonInterface){
         Map<String , String> map = new HashMap<>() ;
         map.put("type" ,"GetClsAndGrpDt") ;
-        map.put("Unqid" ,""+ binding.etUniqe.getText().toString()) ;
+//        map.put("Unqid" ,""+ binding.etUniqe.getText().toString()) ;
+        map.put("Unqid" ,""+ loginUserModel.getCollageUnqid());
         String json = new Gson().toJson(map) ;
         webSocketManager.sendMessage(json , res->{
             runOnUiThread(()->{
@@ -266,10 +267,12 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<WebSocket> call, Throwable t) {
-
             }
         });
-
     }
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        commonDB.putString(DB_SELECTED_GROUP_CLASS ,"") ;
+    }
 }

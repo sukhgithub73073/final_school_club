@@ -40,11 +40,13 @@ public class GlobalLoader {
                 }
             });
             new Handler().postDelayed(()->{
-                if (dialog != null){
-                    if (dialog.isShowing()){
-                        dialog.dismiss() ;
-                    }
-                }
+              try {
+                  if (dialog != null){
+                      if (dialog.isShowing()){
+                          dialog.dismiss() ;
+                      }
+                  }
+              }catch (Exception e){e.printStackTrace();}
             } ,120000) ;
         }catch (Exception d){
             d.printStackTrace();

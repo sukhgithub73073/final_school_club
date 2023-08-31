@@ -1,8 +1,12 @@
 package com.op.eschool.activities;
 
 import static com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE;
+import static com.op.eschool.base.MyApplication.studentRegisterList;
 import static com.op.eschool.util.Constants.ANIMATED_DAILOG_TYPE_FAILED;
 import static com.op.eschool.util.Constants.ANIMATED_DAILOG_TYPE_SUCESS;
+import static com.op.eschool.util.Constants.DB_APP_OPEN_AT;
+import static com.op.eschool.util.Constants.DB_SELECTED_GROUP_CLASS;
+import static com.op.eschool.util.Constants.DB_STUDENT_OFFINE_LIST;
 import static com.op.eschool.util.Utility.fromJson;
 
 import androidx.annotation.NonNull;
@@ -28,19 +32,13 @@ import com.google.gson.reflect.TypeToken;
 import com.op.eschool.R;
 import com.op.eschool.activities.staff.StaffMainActivity;
 import com.op.eschool.activities.staff.principle.PrincipleMainActivity;
-import com.op.eschool.activities.staff.register.SchoolInfoActivity;
-import com.op.eschool.activities.staff.student.StudentListActivity;
-//import com.op.eschool.activities.staff.student.StudentRegisterActivity;
-//import com.op.eschool.activities.staff.teacher.StaffRegisterActivity;
 import com.op.eschool.base.BaseActivity;
 import com.op.eschool.databinding.ActivitySplashBinding;
 import com.op.eschool.interfaces.CommonInterface;
-import com.op.eschool.models.CommonResponse;
 import com.op.eschool.models.RegisterModel;
-import com.op.eschool.models.class_models.ClassGroupModel;
 import com.op.eschool.models.login_model.LoginUserModel;
-import com.op.eschool.models.school_models.GetSchoolModel;
-import com.op.eschool.models.school_models.SchoolModel;
+import com.op.eschool.services.StaffRegisterService;
+import com.op.eschool.services.StudentRegisterService;
 import com.op.eschool.util.Constants;
 import com.op.eschool.util.FLog;
 import com.op.eschool.util.Utility;
@@ -56,10 +54,35 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this , R.layout.activity_splash);
         registerModel = new RegisterModel() ;
-        commonDB.putString("STUDENT_DETAIL" , "")  ;
+        commonDB.putString("STUDENT_DETAIL" , "") ;
+        commonDB.putString(DB_SELECTED_GROUP_CLASS ,"") ;
+
+        checkTime() ;
+        offlineServices() ;
         checkUpdate();
     }
 
+    private void checkTime() {
+        long openAt = commonDB.getLong(DB_APP_OPEN_AT) ;
+        long now = System.currentTimeMillis() ;
+        if (openAt == 0){
+            commonDB.putLong(DB_APP_OPEN_AT , now);
+        }else{
+            commonDB.putLong(DB_APP_OPEN_AT , now);
+            long timeDifferenceInMillis = now - openAt;
+            long timeDifferenceInMinutes = timeDifferenceInMillis / (60 * 1000); // Convert milliseconds to minutes
+            if (timeDifferenceInMinutes > 10){Utility.userLogout(getApplicationContext());}
+            FLog.w("checkTime" ,"timeDifferenceInMinutes" + timeDifferenceInMinutes);
+        }
+    }
+    private void offlineServices() {
+        Intent intent = new Intent(this, StudentRegisterService.class) ;
+        startService(intent);
+
+        Intent serviceIntent = new Intent(this, StaffRegisterService.class) ;
+        startService(serviceIntent);
+
+    }
 
     void getFCMToken(){
         FLog.w("getFCMToken", "FCM ");

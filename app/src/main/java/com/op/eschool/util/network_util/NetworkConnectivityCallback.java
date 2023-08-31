@@ -5,6 +5,7 @@ import static com.op.eschool.util.Constants.ANIMATED_DAILOG_TYPE_FAILED;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -15,6 +16,8 @@ import android.os.Looper;
 import com.op.eschool.activities.LoginActivity;
 import com.op.eschool.base.BaseActivity;
 import com.op.eschool.interfaces.NoInternetinterface;
+import com.op.eschool.services.StaffRegisterService;
+import com.op.eschool.services.StudentRegisterService;
 import com.op.eschool.util.FLog;
 import com.op.eschool.util.Utility;
 
@@ -29,11 +32,14 @@ public class NetworkConnectivityCallback extends ConnectivityManager.NetworkCall
     @Override
     public void onAvailable(Network network) {
         super.onAvailable(network);
-        // Network connection is available
         FLog.w(TAG, "Network is available");
         if (dialog != null){
             dialog.dismiss();
             dialog=null ;
+            Intent intent = new Intent(this.context, StudentRegisterService.class) ;
+            this.context.startService(intent);
+            Intent serviceIntent = new Intent(this.context, StaffRegisterService.class) ;
+            this.context.startService(serviceIntent);
         }
     }
 

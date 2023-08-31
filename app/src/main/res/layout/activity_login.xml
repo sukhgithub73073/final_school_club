@@ -174,14 +174,19 @@
             android:id="@+id/chat_boat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
             android:layout_gravity="right|bottom"
-            android:layout_margin="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:src="@drawable/nav_support"
             app:elevation="6dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
             app:fabSize="normal"
-            app:pressedTranslationZ="12dp" />
+            app:pressedTranslationZ="12dp"
+            android:visibility="gone"
+            />
 
     </RelativeLayout>
 

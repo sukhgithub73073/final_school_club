@@ -86,7 +86,7 @@ public class StudentProfileActivity extends BaseActivity {
     private void UpStuTY(String UpDtType) {
         Map<String , String> map = new HashMap<>() ;
         map.put("type" , "UpStuTY") ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         map.put("StudentId" , ""+ model.studentId) ;
         map.put("UpDtType" , ""+UpDtType) ;
         String json = new Gson().toJson(map) ;
@@ -121,17 +121,18 @@ public class StudentProfileActivity extends BaseActivity {
         });
     }
     private void StdntTblSocket(CollegeInterface collegeInterface) {
-        Map<String , String> map = new HashMap<>() ;
-        map.put("type" ,"StdntTbl") ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
-        String json = new Gson().toJson(map) ;
-        webSocketManager.sendMessage(json , res->{
-            runOnUiThread(()->{
-
-                collegeInterface.onRegisterClicked() ;
-
-            });
-
-        });
+        collegeInterface.onRegisterClicked() ;
+//        Map<String , String> map = new HashMap<>() ;
+//        map.put("type" ,"StdntTbl") ;
+//        map.put("Unqid" , loginUserModel.collageUnqid) ;
+//        String json = new Gson().toJson(map) ;
+//        webSocketManager.sendMessage(json , res->{
+//            runOnUiThread(()->{
+//
+//                collegeInterface.onRegisterClicked() ;
+//
+//            });
+//
+//        });
     }
 }

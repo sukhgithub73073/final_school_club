@@ -45,7 +45,7 @@ public class LeaveListActivity extends BaseActivity {
     private void GetLeave() {
         Map<String , String> map = new HashMap<>() ;
         map.put("type" , "GetLeave");
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         String json = new Gson().toJson(map) ;
         webSocketManager.sendMessage(json , res->{
             try {

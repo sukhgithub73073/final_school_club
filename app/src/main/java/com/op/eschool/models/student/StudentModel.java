@@ -31,6 +31,10 @@ public class StudentModel {
     @SerializedName("imgLink")
     @Expose
     public String Image="";
+
+    @SerializedName("imgLinkWithBack")
+    @Expose
+    public String imgLinkWithBack="";
     @SerializedName("ImageExt")
     @Expose
     public String ImageExt="";

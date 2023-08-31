@@ -214,7 +214,7 @@ public class AddSchoolActivity extends BaseActivity {
 
         String url = "CollageReg" ;
         Map<String , String> map = new HashMap<>() ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         map.put("CollageCode" ,binding.etCode.getText().toString()) ;
         map.put("CollageName" ,binding.etName.getText().toString()) ;
         map.put("OwnerName" ,binding.etOnwer.getText().toString()) ;

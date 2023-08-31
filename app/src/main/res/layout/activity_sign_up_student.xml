@@ -471,6 +471,30 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/lin_offline"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginStart="@dimen/_2sdp">
+
+                        <CheckBox
+                            android:id="@+id/check_offline"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Want to register with offline mode"                            android:singleLine="true"
+                            android:textColor="@color/primary_color"
+                            android:textSize="@dimen/_11ssp"
+                            />
+
+                    </LinearLayout>
+
                     <TextView
                         android:id="@+id/btn_next"
                         android:layout_width="match_parent"

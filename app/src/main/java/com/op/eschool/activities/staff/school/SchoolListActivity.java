@@ -10,7 +10,7 @@ import android.os.Bundle;
 import com.op.eschool.R;
 import com.op.eschool.activities.complaints.ComplaintsActivity;
 import com.op.eschool.activities.staff.class_section.AddClassActivity;
-import com.op.eschool.adapters.ClassNexusAdapter;
+//import com.op.eschool.adapters.ClassNexusAdapter;
 import com.op.eschool.adapters.SchoolNexusAdapter;
 import com.op.eschool.base.BaseActivity;
 import com.op.eschool.databinding.ActivityClassListBinding;
@@ -55,7 +55,7 @@ public class SchoolListActivity extends BaseActivity {
     }
     private void ClgList() {
         Map<String , String> map = new HashMap<>() ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         globalLoader.showLoader();
     }
 }

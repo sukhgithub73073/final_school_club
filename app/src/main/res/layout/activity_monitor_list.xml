@@ -132,6 +132,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             app:fabSize="normal"
+            android:visibility="gone"
             app:pressedTranslationZ="12dp" />
     </RelativeLayout>
 </layout>

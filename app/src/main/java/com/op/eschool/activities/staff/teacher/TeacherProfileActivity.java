@@ -136,7 +136,7 @@ public class TeacherProfileActivity extends BaseActivity {
     private void UpStuTY(String UpDtType) {
         Map<String , String> map = new HashMap<>() ;
         map.put("type" , "UpStaffTY") ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         map.put("StudentId" , ""+ model.getStaffId()) ;
         map.put("UpDtType" , ""+UpDtType) ;
         String json = new Gson().toJson(map) ;
@@ -173,7 +173,7 @@ public class TeacherProfileActivity extends BaseActivity {
 
         Map<String , String> map = new HashMap<>() ;
         map.put("type","SetStaffDeg") ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         map.put("StaffName" , model.getFullName()) ;
         map.put("StaffId" , model.getStaffId()) ;
         map.put("Designation" , Designation.replace(" ","").trim()) ;

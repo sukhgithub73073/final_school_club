@@ -77,10 +77,7 @@ public class AddComplaintActivity extends BaseActivity {
         StrictMode.setVmPolicy(builders.build());
         checkAllPermission("onCreate") ;
         manageClicks() ;
-
-
     }
-
     private void manageClicks() {
         binding.back.setOnClickListener(v->{onBackPressed();});
         binding.ivImage.setOnClickListener(v->{
@@ -216,7 +213,7 @@ public class AddComplaintActivity extends BaseActivity {
 
         Map<String , String> map = new HashMap<>() ;
         map.put("type" , "AdCmplnt");
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         map.put("AttachmentStatus" ,AttachmentStatus) ;
         map.put("CmplntMsg" ,binding.etSubject.getText().toString()) ;
         map.put("CmplntSubMsg" ,binding.etMessage.getText().toString()) ;

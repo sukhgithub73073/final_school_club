@@ -1,7 +1,11 @@
 package com.op.eschool.activities.staff.student;
 
+import static com.op.eschool.base.MyApplication.studentRegisterList;
 import static com.op.eschool.util.Constants.ANIMATED_DAILOG_TYPE_FAILED;
+import static com.op.eschool.util.Constants.ANIMATED_DAILOG_TYPE_PENDING;
 import static com.op.eschool.util.Constants.ANIMATED_DAILOG_TYPE_SUCESS;
+import static com.op.eschool.util.Constants.DB_SELECTED_GROUP_CLASS;
+import static com.op.eschool.util.Constants.DB_STUDENT_OFFINE_LIST;
 import static com.op.eschool.util.Utility.createImageFile;
 import static com.op.eschool.util.Utility.fromJson;
 import static com.op.eschool.util.Utility.groupFromList;
@@ -31,10 +35,12 @@ import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.intandif.viewtoimageorpdf.ActionListeners;
 import com.intandif.viewtoimageorpdf.ViewToImage;
@@ -44,17 +50,21 @@ import com.op.eschool.R;
 import com.op.eschool.base.BaseActivity;
 import com.op.eschool.databinding.ActivitySignUpStudentBinding;
 import com.op.eschool.interfaces.BgRemoveInterface;
+import com.op.eschool.interfaces.CommonInterface;
 import com.op.eschool.models.CommonResponse;
 import com.op.eschool.models.DialogModel;
+import com.op.eschool.models.class_models.SelectGrpClass;
 import com.op.eschool.models.login_model.LoginUserModel;
 import com.op.eschool.models.pincode_api_model.PincodeModel;
 import com.op.eschool.models.pincode_api_model.PostOffice;
 import com.op.eschool.models.school_models.SchoolModel;
 import com.op.eschool.models.student.StudentModel;
 import com.op.eschool.retrofit.RetrofitClient;
+import com.op.eschool.services.StudentRegisterService;
 import com.op.eschool.util.Constants;
 import com.op.eschool.util.FLog;
 import com.op.eschool.util.FToast;
+import com.op.eschool.util.FileUtils;
 import com.op.eschool.util.GlobalLoader;
 import com.op.eschool.util.ImageConvert;
 import com.op.eschool.util.PermissionUtil;
@@ -67,6 +77,8 @@ import org.jetbrains.annotations.NotNull;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -87,6 +99,7 @@ public class SignUpStudentActivity extends BaseActivity{
     String ClassId  ,Unqid;
     Map<String , String> map = new HashMap<>() ;
     String TYPE="" ;
+    String ImageExt ="" ,Image="" ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,6 +114,7 @@ public class SignUpStudentActivity extends BaseActivity{
         if (!commonDB.getString("STUDENT_DETAIL").equalsIgnoreCase("")) {
             editModel = new Gson().fromJson(commonDB.getString("STUDENT_DETAIL"), StudentModel.class);
             ClassId = editModel.ClassId ;
+            binding.linOffline.setVisibility(View.GONE) ;
             }
 
         if (TYPE.equalsIgnoreCase("REGISTER_STUDENT")){
@@ -222,7 +236,6 @@ public class SignUpStudentActivity extends BaseActivity{
     }
 
     private void AdStaffReg() {
-        String ImageExt ="" ,Image="" ;
         if (uploadFile != null){
             ImageExt = MimeTypeMap.getFileExtensionFromUrl(uploadFile.toString());
             Image = getBase64FromFile(uploadFile.getPath()) ;
@@ -232,6 +245,9 @@ public class SignUpStudentActivity extends BaseActivity{
             Image = editModel.Image ;
         }
 
+        if (ImageExt.equalsIgnoreCase("")){
+            ImageExt = Utility.getFileExtension(uploadFile) ;
+        }
         map.put("type" ,"AdStuReg") ;
         if (editModel != null) {
             map.put("type" ,"UpStuEdLs") ;
@@ -264,30 +280,45 @@ public class SignUpStudentActivity extends BaseActivity{
         FLog.w("AdStaffReg" , "map>>" + new Gson().toJson(map)) ;
         map.put("Image" ,"" + Image) ;
         String json = new Gson().toJson(map) ;
-        globalLoader.showLoader();
-        webSocketManager.sendMessage(json , res->{
-            runOnUiThread(()->{
-                try {
-                    globalLoader.dismissLoader();
-                    CommonResponse commonResponse = Utility.convertResponse(res);
-                    if (commonResponse.getStatus().equalsIgnoreCase(Constants.RESPONSE_SUCCESS)){
-                        String des = editModel != null?"You has been successfully update your profile":"You has been successfully registered please wait for approvale" ;
-                        Utility.showAnimatedDialog(ANIMATED_DAILOG_TYPE_SUCESS , SignUpStudentActivity.this , ""+des ,()->{
-                            if (commonDB.getString(Constants.LOGIN_RESPONSE).equalsIgnoreCase("")){
-                                Utility.userLogout(getApplicationContext());
-                            }else{
-                                Utility.gotoHome(getApplicationContext());
-                            }
-                        }) ;
-                    }else {
-                        Utility.showAnimatedDialog(ANIMATED_DAILOG_TYPE_FAILED , SignUpStudentActivity.this , ""+commonResponse.getMsg() ,()->{
-                        }) ;
-                    }
-                }catch (Exception e){e.printStackTrace();}
-            }) ;
-        });
-    }
 
+        if (editModel == null && binding.checkOffline.isChecked()) {
+            studentRegisterList.add(json) ;
+            if (TYPE.equalsIgnoreCase("REGISTER_STUDENT")){
+                showDialogWithButtons() ;
+            }else{
+                showAnimatedDialog();
+            }
+
+
+        }else{
+            globalLoader.showLoader();
+            webSocketManager.sendMessage(json , res->{
+                runOnUiThread(()->{
+                    try {
+                        globalLoader.dismissLoader();
+                        CommonResponse commonResponse = Utility.convertResponse(res);
+                        if (commonResponse.getStatus().equalsIgnoreCase(Constants.RESPONSE_SUCCESS)){
+                            SelectGrpClass selectGrpClass =new SelectGrpClass(""+binding.etGroup.getText().toString(),
+                                    "",
+                                    "" + binding.etClass.getText().toString(),""+ClassId) ;
+                            commonDB.putString(DB_SELECTED_GROUP_CLASS ,new Gson().toJson(selectGrpClass)) ;
+                            if (TYPE.equalsIgnoreCase("REGISTER_STUDENT")){
+                                showDialogWithButtons() ;
+                            }else{
+                                showAnimatedDialog();
+                            }
+                        }else {
+                            Utility.showAnimatedDialog(ANIMATED_DAILOG_TYPE_FAILED , SignUpStudentActivity.this , ""+commonResponse.getMsg() ,()->{
+                            }) ;
+                        }
+                    }catch (Exception e){e.printStackTrace();}
+                }) ;
+            });
+        }
+
+
+
+    }
 
     private void PincodeData() {
         globalLoader.showLoader();
@@ -308,6 +339,7 @@ public class SignUpStudentActivity extends BaseActivity{
                             Utility.showAnimatedDialog(ANIMATED_DAILOG_TYPE_FAILED , SignUpStudentActivity.this , "No records found Please enter valid Pincode" ,()->{
                             }) ;
                         }
+
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -383,6 +415,16 @@ public class SignUpStudentActivity extends BaseActivity{
                         .apply(new RequestOptions().placeholder(R.drawable.logo))
                         .into(binding.image) ;
             }
+
+            if (!commonDB.getString(DB_SELECTED_GROUP_CLASS).equalsIgnoreCase("")){
+                SelectGrpClass selectGrpClass = new Gson().fromJson(commonDB.getString(DB_SELECTED_GROUP_CLASS) ,SelectGrpClass.class) ;
+                ClassId = selectGrpClass.classId ;
+                binding.etGroup.setText(""+ selectGrpClass.groupName);
+                binding.etClass.setText(""+ selectGrpClass.className);
+            }
+
+
+
         }catch (Exception e){e.printStackTrace();}
     }
     private void checkAllPermission(String type) {
@@ -417,21 +459,6 @@ public class SignUpStudentActivity extends BaseActivity{
                    galleryIntent.launch(pickPhoto);
                }
 
-//               DialogModel dialogModel = new DialogModel(SignUpStudentActivity.this ,"Take Image","Take photo from Gallery or take new picture using Camera !","Camera","Gallery", t->{
-//                   if (t.equalsIgnoreCase("POSTIVE")){
-//                       File image = createImageFile();
-////                    imgUri = Uri.fromFile(image);
-//                       Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                       imgUri = FileProvider.getUriForFile(this,getPackageName() + ".provider", image);
-//
-//                       intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);
-//                       cameraIntent.launch(intent);
-//                   }else{
-//                       Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                       galleryIntent.launch(pickPhoto);
-//                   }
-//               } ) ;
-//               Utility.wantTOSureDialog(dialogModel) ;
            });
 
         }
@@ -441,6 +468,7 @@ public class SignUpStudentActivity extends BaseActivity{
     private void initSchool() {
         try {
             String res = commonDB.getString("GetCollageDetail");
+            FLog.w("SDFsdfsfdd" ,"Sfdf>>>>>" +res) ;
             ArrayList<SchoolModel> list = (ArrayList<SchoolModel>) fromJson(res,
                     new TypeToken<ArrayList<SchoolModel>>() {
                     }.getType());
@@ -469,19 +497,13 @@ public class SignUpStudentActivity extends BaseActivity{
                 public void onActivityResult(ActivityResult result) {
                     try {
                         Intent data = result.getData() ;
-                        Uri selectedImage = data.getData();
-                        CropImage.activity(selectedImage)
-                               //
-                                //
-                                ///
-                                .start(SignUpStudentActivity.this);
+                        imgUri = data.getData();
+                        CropImage.activity(imgUri).start(SignUpStudentActivity.this) ;
                     }catch (Exception e){
                         e.printStackTrace();
                     }
                 }
             });
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -490,44 +512,95 @@ public class SignUpStudentActivity extends BaseActivity{
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), resultUri);
-                    removeBG(bitmap) ;
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    uploadFile = FileUtils.getFileFromUri(getApplicationContext(), resultUri) ;
+                    Glide.with(getApplicationContext())
+                            .load(uploadFile)
+                            .apply(new RequestOptions().placeholder(R.drawable.placeholder_upload))
+                            .into(binding.image)   ;
+                    File compressFile = Utility.getCompressFile(getApplicationContext() , uploadFile ) ;
+                    if (compressFile != null){
+                        uploadFile = compressFile ;
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-
-
             }
+
+
+
+//            if (resultCode == RESULT_OK) {
+//                Uri resultUri = result.getUri();
+//                try {
+//                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), resultUri);
+//                    removeBG(bitmap) ;
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
         }
     }
     void removeBG(Bitmap b){
-        binding.progressBar.setVisibility(View.VISIBLE) ;
-        new ImageConvert().ImageConvertLocal(getApplicationContext() , b, new BgRemoveInterface() {
-            @Override
-            public void onSuccess(@NonNull Bitmap bitmap) {
-                try {
-                    binding.progressBar.setVisibility(View.GONE) ;
-                    FLog.w("removeBG" , "onSuccess");
-                    Bitmap bbmp = Utility.loadFormatedImage(getApplicationContext() , binding.image , bitmap);
-                    uploadFile = Utility.bitmapToFile(getApplicationContext() , bbmp ,"img_"+System.currentTimeMillis()) ;
-                    uploadFile = Utility.getCompressFile(getApplicationContext() , uploadFile ) ;
-                }catch (Exception e){e.printStackTrace();}
-            }
-            @Override
-            public void onFailed(@NonNull Exception exception) {
-                FLog.w("removeBG" , "onFailed" + exception);
-                binding.progressBar.setVisibility(View.GONE) ;
-                Utility.showAnimatedDialog(ANIMATED_DAILOG_TYPE_FAILED , SignUpStudentActivity.this , ""+exception.getMessage() ,()->{
-                });
-            }
-        });
+        uploadFile = Utility.bitmapToFile(getApplicationContext() , b ,"img_"+System.currentTimeMillis()) ;
+        uploadFile = Utility.getCompressFile(getApplicationContext() , uploadFile ) ;
+        Glide.with(getApplicationContext())
+                .load(b)
+                .apply(new RequestOptions().placeholder(R.drawable.placeholder_upload))
+                .into(binding.image) ;
+
+//        binding.progressBar.setVisibility(View.VISIBLE) ;
+//        new ImageConvert().ImageConvertLocal(getApplicationContext() , b, new BgRemoveInterface() {
+//            @Override
+//            public void onSuccess(@NonNull Bitmap bitmap) {
+//                try {
+//                    binding.progressBar.setVisibility(View.GONE) ;
+//                    FLog.w("removeBG" , "onSuccess");
+//                    Bitmap bbmp = Utility.loadFormatedImage(getApplicationContext() , binding.image , bitmap);
+//                    uploadFile = Utility.bitmapToFile(getApplicationContext() , bbmp ,"img_"+System.currentTimeMillis()) ;
+//                    uploadFile = Utility.getCompressFile(getApplicationContext() , uploadFile ) ;
+//                }catch (Exception e){e.printStackTrace();}
+//            }
+//            @Override
+//            public void onFailed(@NonNull Exception exception) {
+//                FLog.w("removeBG" , "onFailed" + exception);
+//                binding.progressBar.setVisibility(View.GONE) ;
+//                Utility.showAnimatedDialog(ANIMATED_DAILOG_TYPE_FAILED , SignUpStudentActivity.this , ""+exception.getMessage() ,()->{
+//                });
+//            }
+//        });
     }
-    public static Bitmap changeBackgroundColor(Bitmap originalBitmap, int color) {
-        Bitmap newBitmap = Bitmap.createBitmap(originalBitmap.getWidth(), originalBitmap.getHeight(), originalBitmap.getConfig());
-        Canvas canvas = new Canvas(newBitmap);
-        canvas.drawColor(color);
-        canvas.drawBitmap(originalBitmap, 0F, 0F, null);
-        originalBitmap.recycle();
-        return newBitmap;
+
+    void showDialogWithButtons(){
+        Utility.showDialogWithButtons(ANIMATED_DAILOG_TYPE_SUCESS , SignUpStudentActivity.this ,
+                "You have been successfully registered. Please wait for approval" ,pos->{
+            SelectGrpClass selectGrpClass =new SelectGrpClass(""+binding.etGroup.getText().toString(),
+                    "",
+                    ""+binding.etClass.getText().toString(),""+ClassId) ;
+            commonDB.putString(DB_SELECTED_GROUP_CLASS ,new Gson().toJson(selectGrpClass)) ;
+
+            Intent serviceIntent = new Intent(this, StudentRegisterService.class);
+            startService(serviceIntent);
+            if (commonDB.getString(Constants.LOGIN_RESPONSE).equalsIgnoreCase("")){
+                if (pos==0){
+                    Utility.userLogout(getApplicationContext());
+                }else{
+                    finish() ;
+                    startActivity(new Intent(getApplicationContext() , SignUpStudentActivity.class).putExtra("TYPE" ,""+TYPE)) ;
+                }
+            }else{
+                Utility.gotoHome(getApplicationContext());
+            }
+        }) ;
+
+    }
+    void showAnimatedDialog(){
+        String des = editModel != null?"You has been successfully update your profile":"You have been successfully registered. Please wait for approval" ;
+        Utility.showAnimatedDialog(ANIMATED_DAILOG_TYPE_SUCESS , SignUpStudentActivity.this , ""+des ,()->{
+            if (commonDB.getString(Constants.LOGIN_RESPONSE).equalsIgnoreCase("")){
+                Utility.userLogout(getApplicationContext());
+            }else{
+                Utility.gotoHome(getApplicationContext());
+            }
+        }) ;
     }
 }

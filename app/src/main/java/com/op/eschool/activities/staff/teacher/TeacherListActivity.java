@@ -113,7 +113,7 @@ public class TeacherListActivity extends BaseActivity {
     private void StaffTbl() {
         Map<String , String> map = new HashMap<>() ;
         map.put("type" ,"StaffTbl") ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         String json = new Gson().toJson(map) ;
         globalLoader.showLoader();
         webSocketManager.sendMessage(json , res->{
@@ -231,7 +231,7 @@ public class TeacherListActivity extends BaseActivity {
     private void UpStuTY(int pos ,StaffModel model, String UpDtType) {
         Map<String , String> map = new HashMap<>() ;
         map.put("type" , "UpStaffTY") ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         map.put("StaffId" , ""+model.getStaffId()) ;
         map.put("UpDtType" , ""+UpDtType) ;
         String json = new Gson().toJson(map) ;

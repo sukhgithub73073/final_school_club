@@ -2,6 +2,7 @@ package com.op.eschool.fragments.staff;
 
 import static com.op.eschool.base.BaseActivity.commonDB;
 import static com.op.eschool.base.BaseActivity.loginUserModel;
+import static com.op.eschool.base.BaseActivity.webSocketManager;
 import static com.op.eschool.util.Utility.fromJson;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,18 +17,25 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.op.eschool.R;
+import com.op.eschool.activities.staff.student.SignUpStudentActivity;
+import com.op.eschool.activities.staff.student.StudentListActivity;
 import com.op.eschool.activities.student.attendance.SubjectAttendanceActivity;
 import com.op.eschool.adapters.DashboardAdapter;
 import com.op.eschool.databinding.FragmentStaffHomeBinding;
+import com.op.eschool.interfaces.CommonInterface;
 import com.op.eschool.models.DashboardModel;
 import com.op.eschool.models.school_models.SchoolModel;
 import com.op.eschool.util.FToast;
 import com.op.eschool.util.Utility;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 public class StaffHomeFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
@@ -92,16 +100,21 @@ public class StaffHomeFragment extends Fragment {
 
     private void initADapters() {
 
-        list.add(new DashboardModel("Attendance" ,R.drawable.attendance, new Intent(getContext() , SubjectAttendanceActivity.class)));
+        list.add(new DashboardModel("Students" ,R.drawable.attendance, new Intent(getContext() , StudentListActivity.class)));
         list.add(new DashboardModel("Homework" ,R.drawable.homework, null));
         list.add(new DashboardModel("Result" ,R.drawable.exam, null));
         list.add(new DashboardModel("Exam Route" ,R.drawable.todo_list, null));
         list.add(new DashboardModel("Solution" ,R.drawable.idea_sharing, null));
         list.add(new DashboardModel("Notice & Events" ,R.drawable.questions, null));
-        list.add(new DashboardModel("Add Account" ,R.drawable.add_user_male, null));
+        list.add(new DashboardModel("Add Student" ,R.drawable.add_user_male, new Intent(getContext() , SignUpStudentActivity.class).putExtra("TYPE" ,"ADD_STUDENT")));
         binding.setDashboardAdapter(new DashboardAdapter(list, getContext() , pos->{
             if (list.get(pos).intent==null){
                 FToast.makeText(getContext(), "Comming Soon...", FToast.LENGTH_SHORT).show();
+            } else if (list.get(pos).title.equalsIgnoreCase("Add Student")){
+                commonDB.putString("STUDENT_DETAIL" ,"") ;
+                GetCollageDetail(Utility.getLoginUser(getContext()).collageId , pppp->{
+                    startActivity(list.get(pos).intent) ;
+                });
             }else{
                 startActivity(list.get(pos).intent) ;
             }
@@ -109,6 +122,29 @@ public class StaffHomeFragment extends Fragment {
 
 
     }
+    void GetCollageDetail(String CollageId , CommonInterface commonInterface){
+        if (!commonDB.getString("GetCollageDetail").equalsIgnoreCase("")){
+            commonInterface.onItemClicked(0) ;
+        }else {
+            Map<String , String> map = new HashMap<>() ;
+            map.put("type" , "GetCollageDetail") ;
+            map.put("CollageId" ,CollageId) ;
+            String json = new Gson().toJson(map) ;
+            webSocketManager.sendMessage(json , res->{
+                getActivity().runOnUiThread(()->{
+                    try {
+                        commonDB.putString("GetCollageDetail" , res) ;
+                        commonInterface.onItemClicked(0) ;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+            }) ;
+        }
+
+    }
+
+
     private void manageSchoolResponse() {
 
         try {

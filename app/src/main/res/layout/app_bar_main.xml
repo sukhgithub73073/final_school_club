@@ -65,9 +65,6 @@
 
             />
     </LinearLayout>
-
-
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/chat_boat"
         android:layout_width="wrap_content"
@@ -79,6 +76,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         app:fabSize="normal"
+        android:visibility="gone"
         app:pressedTranslationZ="12dp" />
 
 </RelativeLayout>

@@ -89,10 +89,6 @@ public class FileUtils {
                     final String acc = split[0];
                     final String doc = split[1];
 
-                    /*
-                     * @details google drive document data. - acc , docId.
-                     * */
-
                     return saveFileIntoExternalStorageByUri(context, uri);
 
 

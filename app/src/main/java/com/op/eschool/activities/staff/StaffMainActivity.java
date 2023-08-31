@@ -21,12 +21,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.op.eschool.R;
+import com.op.eschool.activities.staff.student.StudentListActivity;
 import com.op.eschool.adapters.DrawerAdaptter;
 import com.op.eschool.adapters.ViewPagerAdapter;
 import com.op.eschool.base.BaseActivity;
 import com.op.eschool.chatboat.ChatBoatActivity;
 import com.op.eschool.databinding.ActivityStaffMainBinding;
 import com.op.eschool.fragments.staff.StaffHomeFragment;
+import com.op.eschool.interfaces.CommonInterface;
 import com.op.eschool.interfaces.DrawerInterface;
 import com.op.eschool.models.DialogModel;
 import com.op.eschool.models.DrawerModel;
@@ -36,7 +38,9 @@ import com.op.eschool.util.GlobalLoader;
 import com.op.eschool.util.Utility;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StaffMainActivity extends BaseActivity {
     ViewPagerAdapter viewPagerAdapter ;
@@ -73,6 +77,29 @@ public class StaffMainActivity extends BaseActivity {
         super.onDestroy();
 
     }
+    void GetCollageDetail(String CollageId , CommonInterface commonInterface){
+        if (!commonDB.getString("GetCollageDetail").equalsIgnoreCase("")){
+            commonInterface.onItemClicked(0) ;
+        }else {
+            Map<String , String> map = new HashMap<>() ;
+            map.put("type" , "GetCollageDetail") ;
+            map.put("CollageId" ,CollageId) ;
+            String json = new Gson().toJson(map) ;
+            webSocketManager.sendMessage(json , res->{
+                runOnUiThread(()->{
+                    try {
+                        commonDB.putString("GetCollageDetail" , res) ;
+                        commonInterface.onItemClicked(0) ;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+
+                    }
+                });
+            }) ;
+        }
+
+    }
+
 
     private void setDrawerAdpater() {
         View headers = binding.navView.getHeaderView(0);
@@ -89,7 +116,8 @@ public class StaffMainActivity extends BaseActivity {
         List<StaffDrawerModel> drawerList = new ArrayList<>();
 
         drawerList.add(new StaffDrawerModel(R.drawable.student_male ,"Dashboard", new ArrayList<>())) ;
-        drawerList.add(new StaffDrawerModel(R.drawable.tuition ,"Staff", new ArrayList<>())) ;
+        drawerList.add(new StaffDrawerModel(R.drawable.tuition ,"Student", new ArrayList<>())) ;
+
         drawerList.add(new StaffDrawerModel(R.drawable.ic_calendar ,"Attendance", new ArrayList<>())) ;
         drawerList.add(new StaffDrawerModel(R.drawable.ic_timetable ,"Time Table", new ArrayList<>())) ;
 
@@ -113,8 +141,14 @@ public class StaffMainActivity extends BaseActivity {
             @Override
             public void onMainItemClicked(String type) {
                 binding.drawerLayout.closeDrawers() ;
+
                 if (type.equalsIgnoreCase("Logout")){
                     logoutDialog() ;
+                }else if (type.equalsIgnoreCase("Student")){
+                    GetCollageDetail(loginUserModel.collageId ,pos -> {
+                        startActivity(new Intent(getApplicationContext() ,StudentListActivity.class));
+                    });
+
                 }
 
             }

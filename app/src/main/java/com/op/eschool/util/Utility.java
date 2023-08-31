@@ -2,6 +2,7 @@ package com.op.eschool.util;
 
 import static com.op.eschool.base.BaseActivity.commonDB;
 import static com.op.eschool.base.BaseActivity.webSocketManager;
+import static com.op.eschool.util.Constants.DB_SELECTED_GROUP_CLASS;
 
 import android.Manifest;
 import android.app.Activity;
@@ -96,7 +97,17 @@ import java.util.stream.Collectors;
 import me.echodev.resizer.Resizer;
 
 public class Utility {
-    //dd
+    public static String getFileExtension(File uploadFile) {
+        String url = uploadFile.toString();
+        int lastDotIndex = url.lastIndexOf(".");
+        if (lastDotIndex >= 0 && lastDotIndex < url.length() - 1) {
+            String extension = url.substring(lastDotIndex + 1);
+            return  extension ;
+        } else {
+            return "jpeg" ;
+        }
+    }
+
     public static File getCompressFile(Context context , File file){
         File resizedImage = null;
         try {
@@ -109,7 +120,7 @@ public class Utility {
                     .setSourceImage(file)
                     .getResizedFile();
         } catch (IOException e) {
-            return  new File("") ;
+            return resizedImage ;
         }
 
         return resizedImage ;
@@ -129,16 +140,12 @@ public class Utility {
             return String.format("%d B", fileSizeInBytes);
         }
     }
-
-
-
     private static final int TYPE_WIFI = 1;
     private static final int TYPE_MOBILE = 2;
     private static final int TYPE_BLUETOOTH = 3;
     private static final int TYPE_NOT_CONNECTED = 0;
     public static List<String> getMonthList(){
         List<String> monthList = new ArrayList<>();
-
         monthList.add("Jan") ;
         monthList.add("Feb") ;
         monthList.add("Mar") ;
@@ -153,24 +160,15 @@ public class Utility {
         monthList.add("Dec") ;
         return  monthList ;
     }
-
     public static String getTodayDate(){
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         String currentDateandTime = sdf.format(new Date());
         return currentDateandTime ;
-
     }
     public static Bitmap convertBase64ToBitmap(String b64) {
-        // b64 = "data:image/jpeg;base64," + b64 ;
-//        byte[] decodedBytes = Base64.decode(b64, Base64.DEFAULT);
-//        BitmapFactory.Options options = new BitmapFactory.Options();
-//        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-//        options.inSampleSize = 1;
-//        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length, options);
         byte[] imageAsBytes = Base64.decode(b64.getBytes(), Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
     }
-    //LOGIN_RESPONSE
     public static LoginUserModel getLoginUser(Context context){
         try {
             LoginUserModel commonResponse = new Gson().fromJson(new CommonDB(context).getString(Constants.LOGIN_RESPONSE) ,LoginUserModel.class ) ;
@@ -179,9 +177,7 @@ public class Utility {
             e.printStackTrace();
             return new LoginUserModel() ;
         }
-
     }
-
     public static int getConnectivityStatus(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = null;
@@ -256,6 +252,7 @@ public class Utility {
 
     public static void gotoHome(Context context) {
         CommonResponse commonResponse = new Gson().fromJson(new CommonDB(context).getString(Constants.LOGIN_RESPONSE) , CommonResponse.class) ;
+        commonDB.putString(DB_SELECTED_GROUP_CLASS ,"") ;
         if (commonResponse.Type.equalsIgnoreCase("Principle")){
             context.startActivity(new Intent(context , PrincipleMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)) ;
         }else  if (commonResponse.Type.equalsIgnoreCase("Staff")){
@@ -330,9 +327,8 @@ public class Utility {
         try {
             return new Gson().fromJson(jsonString, type);
         }catch (Exception e){
-
-            SchoolModel model = new SchoolModel();
-            return model ;
+            e.printStackTrace() ;
+            return new Object() ;
         }
     }
 
@@ -466,6 +462,73 @@ public class Utility {
         return list ;
     }
 
+    public static void showDialogWithButtons(String type , Activity mActivity , String msg , CommonInterface dialogDismissInterface) {
+        androidx.appcompat.app.AlertDialog.Builder alertDialogbd = new androidx.appcompat.app.AlertDialog.Builder(mActivity,R.style.AlertDailogueTheme);
+        View view1 = LayoutInflater.from(mActivity).inflate(R.layout.status_show_dailog, null);
+        alertDialogbd.setCancelable(false) ;
+        alertDialogbd.setView(view1);
+        final androidx.appcompat.app.AlertDialog alertDialog = alertDialogbd.create();
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+        alertDialog.show();
+
+        TextView title = alertDialog.findViewById(R.id.title)
+                , description =alertDialog.findViewById(R.id.description)
+                , btn_submit =alertDialog.findViewById(R.id.btn_submit)
+                , btn_retry =alertDialog.findViewById(R.id.btn_retry)
+                ;
+        ImageView image = alertDialog.findViewById(R.id.image) ;
+        String titleStr ="" ;
+        int bgColor ;
+        int icon ;
+        // ic_close
+        if (type.equalsIgnoreCase("" + Constants.ANIMATED_DAILOG_TYPE_PENDING)){
+            titleStr="PENDING";
+            bgColor = R.color.pending_color ;
+            icon = R.drawable.ic_pending ;
+        }else if (type.equalsIgnoreCase("" + Constants.ANIMATED_DAILOG_TYPE_FAILED)){
+            titleStr="FAILED";
+            bgColor = R.color.failed_color ;
+            icon = R.drawable.ic_close ;
+        }else{
+            titleStr="SUCCESS";
+            bgColor = R.color.success_color ;
+            icon = R.drawable.success_image ;
+        }
+        btn_submit.setText("Submit");
+        btn_retry.setText("Next");
+        title.setText("" + titleStr) ;
+        description.setText("" + msg) ;
+        Glide.with(mActivity)
+                .load(icon)
+                .apply(new RequestOptions().placeholder(icon))
+                .into(image)   ;
+        image.getBackground().setTint(ContextCompat.getColor(mActivity, bgColor)) ;
+        description.setTextColor(mActivity.getColor(bgColor)) ;
+
+        alertDialog.findViewById(R.id.btn_submit).setOnClickListener(v->{
+            alertDialog.dismiss();
+            dialogDismissInterface.onItemClicked(0) ;
+        });
+        alertDialog.findViewById(R.id.btn_retry).setVisibility(View.VISIBLE) ;
+        alertDialog.findViewById(R.id.btn_retry).setOnClickListener(v->{
+            alertDialog.dismiss();
+            dialogDismissInterface.onItemClicked(1) ;
+        });
+
+
+
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                alertDialog.dismiss();
+//                dialogDismissInterface.onDialogDismiss();
+//            }
+//        }, 3000) ;
+
+
+    }
 
     public static void showAnimatedDialog(String type , Activity mActivity , String msg , DialogDismissInterface dialogDismissInterface) {
         androidx.appcompat.app.AlertDialog.Builder alertDialogbd = new androidx.appcompat.app.AlertDialog.Builder(mActivity,R.style.AlertDailogueTheme);
@@ -508,14 +571,20 @@ public class Utility {
         image.getBackground().setTint(ContextCompat.getColor(mActivity, bgColor)) ;
         description.setTextColor(mActivity.getColor(bgColor)) ;
 
+        alertDialog.findViewById(R.id.btn_submit).setOnClickListener(v->{
+            alertDialog.dismiss();
+            dialogDismissInterface.onDialogDismiss();
+        });
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                alertDialog.dismiss();
-                dialogDismissInterface.onDialogDismiss();
-            }
-        }, 3000) ;
+
+
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                alertDialog.dismiss();
+//                dialogDismissInterface.onDialogDismiss();
+//            }
+//        }, 3000) ;
 
 
     }

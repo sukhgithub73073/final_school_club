@@ -81,15 +81,13 @@ public class StudentListActivity extends BaseActivity {
         setContentView(binding.getRoot());
         binding.setLifecycleOwner(this) ;
         map.put("type" , "StdntTblByClss") ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
 
         //binding = DataBindingUtil.setContentView(this , R.layout.activity_student_list) ;
         globalLoader= new GlobalLoader(StudentListActivity.this) ;
         binding.back.setOnClickListener(v->{onBackPressed();});
-        DB_STUDENT_KEY = "DB_STUDENT_KEY_" + commonDB.getString("Unqid") ;
         schoolModel = new Gson().fromJson(commonDB.getString("SCHOOL_DETAILS") , SchoolModel.class) ;
         studentFilterModel = new StudentFilterModel("","","","","") ;
-        //StdntTblSocket("onCreate") ;
         manageClicks() ;
     }
     private void manageClicks() {
@@ -164,7 +162,7 @@ public class StudentListActivity extends BaseActivity {
 //    private void StdntTblSocket(String type) {
 //        Map<String , String> map = new HashMap<>() ;
 //        map.put("type" ,"StdntTbl") ;
-//        map.put("Unqid" , commonDB.getString("Unqid")) ;
+//        map.put("Unqid" , loginUserModel.collageUnqid) ;
 //        String json = new Gson().toJson(map) ;
 //        try {
 //            globalLoader.showLoader();
@@ -235,7 +233,7 @@ public class StudentListActivity extends BaseActivity {
     private void UpStuTY(int pos ,StudentModel model, String UpDtType) {
         Map<String , String> map = new HashMap<>() ;
         map.put("type" , "UpStuTY") ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         map.put("StudentId" , ""+model.studentId) ;
         map.put("UpDtType" , ""+UpDtType) ;
         String json = new Gson().toJson(map) ;

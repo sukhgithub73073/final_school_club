@@ -72,7 +72,7 @@ public class TimetablesSettingActivity extends BaseActivity {
     void StaffTbl(){
         Map<String , String> map = new HashMap<>() ;
         map.put("type" ,"StaffTbl") ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         String json = new Gson().toJson(map) ;
         globalLoader.showLoader();
         webSocketManager.sendMessage(json , res->{
@@ -112,7 +112,7 @@ public class TimetablesSettingActivity extends BaseActivity {
 
 //        Map<String , String> map = new HashMap<>() ;
 //        map.put("type" ,"ClassGrpAdded") ;
-//        map.put("Unqid" , commonDB.getString("Unqid")) ;
+//        map.put("Unqid" , loginUserModel.collageUnqid) ;
 //        globalLoader.showLoader();
 //        String json = new Gson().toJson(map) ;
 //        webSocketManager.sendMessage(json , res->{
@@ -163,7 +163,7 @@ public class TimetablesSettingActivity extends BaseActivity {
     private void GetClsWisGrpDt() {
         Map<String , String> map = new HashMap<>() ;
         map.put("type","GetClsWisGrpDt") ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         map.put("GroupId" ,"" + groupModel.getGroupId());
         String json = new Gson().toJson(map) ;
         globalLoader.showLoader();
@@ -215,7 +215,7 @@ public class TimetablesSettingActivity extends BaseActivity {
     private void GetSubjctWisGrpDt() {
         Map<String , String> map = new HashMap<>() ;
         map.put("type","GetSubjctWisGrpDt") ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         map.put("GroupId" ,"" + groupModel.getGroupId());
         String json = new Gson().toJson(map) ;
         globalLoader.showLoader();
@@ -277,7 +277,7 @@ public class TimetablesSettingActivity extends BaseActivity {
     private void GetTimeDuration() {
         Map<String , String> map = new HashMap<>() ;
         map.put("type" ,"GetTimeDuration") ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         String json = new Gson().toJson(map) ;
         webSocketManager.sendMessage(json , res->{
             runOnUiThread(()->{
@@ -318,7 +318,7 @@ public class TimetablesSettingActivity extends BaseActivity {
     private void UpTimeTable() {
         Map<String,String> map = new HashMap<>() ;
         map.put("type" ,"UpTimeTable") ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         map.put("Period" ,""+timeTableModel.getPeriod()) ;
         map.put("TimeFrom" ,""+timeTableModel.getTimeFrom()) ;
         map.put("TimeTo" ,"" + timeTableModel.getTimeTo()) ;

@@ -58,7 +58,7 @@ public class ComplaintsActivity extends BaseActivity {
     void GetCmplnt(){
         Map<String , String> map = new HashMap<>() ;
         map.put("type" ,"GetCmplnt") ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         String json = new Gson().toJson(map) ;
 
         webSocketManager.sendMessage(json , res->{

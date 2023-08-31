@@ -45,129 +45,38 @@ public class MonitorListActivity extends BaseActivity {
     ClassModel classModel ;
     List<StudentModel> list  = new ArrayList<>();
     GlobalLoader globalLoader ;
+    Map<String , String> map = new HashMap<>() ;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this , R.layout.activity_monitor_list);
+        map.put("type" , "GetApontdStuMonitor") ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
+
         globalLoader = new GlobalLoader(MonitorListActivity.this) ;
         binding.back.setOnClickListener(v->{onBackPressed();}) ;
-        ClassGrpAdded();
+        manageClicks();
 
     }
-    private void ClassGrpAdded() {
+    private void manageClicks() {
 
-        try {
-            String res = commonDB.getString("ClassGrpAdded");
-            ArrayList<ClassGroupModel> list = (ArrayList<ClassGroupModel>) fromJson(res,
-                    new TypeToken<ArrayList<ClassGroupModel>>() {
-                    }.getType());
-            setGroupAdapter(list) ;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Utility.setGroupAdapter(MonitorListActivity.this , getApplicationContext() , binding.classGrp , model->{
 
-//        Map<String , String> map = new HashMap<>() ;
-//        map.put("type" ,"ClassGrpAdded") ;
-//        map.put("Unqid" , commonDB.getString("Unqid")) ;
-//        globalLoader.showLoader();
-//        String json = new Gson().toJson(map) ;
-//        webSocketManager.sendMessage(json , res->{
-//            runOnUiThread(()->{
-//                globalLoader.dismissLoader();
-//                try {
-//                    ArrayList<ClassGroupModel> list = (ArrayList<ClassGroupModel>) fromJson(res,
-//                            new TypeToken<ArrayList<ClassGroupModel>>() {
-//                            }.getType());
-//                    setGroupAdapter(list) ;
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            });
-//        }) ;
-    }
-    private void setGroupAdapter(ArrayList<ClassGroupModel> groupList) {
+            binding.txtClass.setText("");
+            binding.noData.setVisibility(View.VISIBLE) ;
+            binding.rvStudents.setVisibility(View.GONE) ;
 
-
-        SearchableSpinner caste = new SearchableSpinner(this);
-        caste.setWindowTitle("Select Class Group") ;
-        ArrayList<String> strList = new ArrayList<>() ;
-        Map<String , ClassGroupModel> classMap = new HashMap<>() ;
-        for (ClassGroupModel s : groupList){
-            strList.add(s.getGroupName()) ;
-            classMap.put(""+s.getGroupName() ,  s) ;
-        }
-        caste.setSpinnerListItems(strList);
-        caste.setOnItemSelectListener(new OnItemSelectListener() {
-            @Override
-            public void setOnItemSelectListener(int position, @NotNull String selectedString) {
-                binding.classGrp.setText(selectedString) ;
-                groupModel = classMap.get(selectedString) ;
-                binding.txtClass.setText("");
-                list.clear();
-                setStudentADapter();
-                GetClsWisGrpDt();
-            }
-        });
-        binding.classGrp.setOnClickListener(v->{
-            caste.setHighlightSelectedItem(true);
-            caste.show();
-        });
-    }
-    private void GetClsWisGrpDt() {
-        Map<String , String> map = new HashMap<>() ;
-        map.put("type","GetClsWisGrpDt") ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
-        map.put("GroupId" ,"" + groupModel.getGroupId());
-        String json = new Gson().toJson(map) ;
-        globalLoader.showLoader();
-        webSocketManager.sendMessage(json , res->{
-            runOnUiThread(()->{
-                try {
-                    globalLoader.dismissLoader();
-                    classList.clear();
-                    classList =  Utility.convertClassList(res) ;
-                    setClassSpinnerAdapter();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Utility.showAnimatedDialog(ANIMATED_DAILOG_TYPE_FAILED , MonitorListActivity.this , ""+e.getMessage() ,()->{
-                    }) ;
-                }
+            Utility.setClassesAdapter(MonitorListActivity.this , model.getClassList() , getApplicationContext() , binding.txtClass ,classModel->{
+                map.put("Class" , classModel.getClassId()+"") ;
+                GetApontdStuMonitor() ;
             });
         });
     }
-    private void setClassSpinnerAdapter() {
 
-        SearchableSpinner caste = new SearchableSpinner(this);
-        caste.setWindowTitle("Select Class") ;
-        ArrayList<String> strList = new ArrayList<>() ;
-        Map<String , ClassModel> classMap = new HashMap<>() ;
-        for (ClassModel s : classList){
-            strList.add(s.getClassName()) ;
-            classMap.put(""+s.getClassName() ,  s) ;
-        }
-        caste.setSpinnerListItems(strList);
-        caste.setOnItemSelectListener(new OnItemSelectListener() {
-            @Override
-            public void setOnItemSelectListener(int position, @NotNull String selectedString) {
-                binding.txtClass.setText(selectedString) ;
-                classModel = classList.get(position) ;
-                GetStudentMonitor() ;
-            }
-        });
-        binding.txtClass.setOnClickListener(v->{
-            caste.setHighlightSelectedItem(true);
-            caste.show();
-        });
-    }
 
-    private void GetStudentMonitor() {
-        //GetApontdStuMonitor
-        Map<String , String> map = new HashMap<>() ;
-        map.put("type" ,"GetApontdStuMonitor") ;
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
-        map.put("Class" , classModel.getClassName()) ;
+    private void GetApontdStuMonitor() {
         String json = new Gson().toJson(map) ;
         try {
             globalLoader.showLoader();

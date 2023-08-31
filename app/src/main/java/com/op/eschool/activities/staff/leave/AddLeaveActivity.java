@@ -115,7 +115,7 @@ public class AddLeaveActivity extends BaseActivity {
 
         Map<String , String> map = new HashMap<>() ;
         map.put("type" , "AdLeave");
-        map.put("Unqid" , commonDB.getString("Unqid")) ;
+        map.put("Unqid" , loginUserModel.collageUnqid) ;
         map.put("AttachmentStatus" ,AttachmentStatus) ;
         map.put("LeaveTo" ,binding.etLeaveTo.getText().toString()) ;
         map.put("LeaveMsg" ,binding.etSubject.getText().toString()) ;

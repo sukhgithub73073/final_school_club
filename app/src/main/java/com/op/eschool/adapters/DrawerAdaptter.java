@@ -59,7 +59,7 @@ public class DrawerAdaptter extends RecyclerView.Adapter<DrawerAdaptter.Holder> 
             if (list.get(position).title.equalsIgnoreCase("Logout")){
                 commonInterface.onMainItemClicked("Logout");
             }else if (list.get(position).list.size() == 0){
-                commonInterface.onMainItemClicked("" + position) ;
+                commonInterface.onMainItemClicked("" + list.get(position).title) ;
             }else{
                 holder.binding.expandableLayout.setExpanded(!holder.binding.expandableLayout.isExpanded()) ;
             }

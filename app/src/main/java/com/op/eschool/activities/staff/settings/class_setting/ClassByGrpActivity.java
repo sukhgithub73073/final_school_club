@@ -1,9 +1,5 @@
 package com.op.eschool.activities.staff.settings.class_setting;
 
-import static com.op.eschool.util.Constants.ANIMATED_DAILOG_TYPE_FAILED;
-import static com.op.eschool.util.Utility.fromJson;
-
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
@@ -12,13 +8,8 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.leo.searchablespinner.SearchableSpinner;
-import com.leo.searchablespinner.interfaces.OnItemSelectListener;
 import com.op.eschool.R;
-import com.op.eschool.activities.complaints.ComplaintsActivity;
 import com.op.eschool.activities.staff.class_section.AddClassActivity;
-import com.op.eschool.activities.staff.class_section.ClassListActivity;
 import com.op.eschool.adapters.ClassAdapter;
 import com.op.eschool.adapters.SettingClassAdapter;
 import com.op.eschool.adapters.SpiClassGroupAdapter;

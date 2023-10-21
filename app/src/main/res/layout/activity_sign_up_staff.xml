@@ -211,6 +211,7 @@
                         android:background="@color/white"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.TextInputLayout.Rounded"
+                        app:prefixText="MR. "
                         >
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/et_fname"

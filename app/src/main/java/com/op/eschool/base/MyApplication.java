@@ -11,10 +11,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MyApplication extends Application {
-    public  static List<String> studentRegisterList  = new ArrayList<>() ;
-    public  static List<String> staffRegisterList  = new ArrayList<>() ;
+    public  static List<Map<String,String>> studentRegisterList  = new ArrayList<>() ;
+    public  static List<Map<String,String>> staffRegisterList  = new ArrayList<>() ;
     private static MyApplication sInstance;
     @Contract(pure = true)
     @Nullable

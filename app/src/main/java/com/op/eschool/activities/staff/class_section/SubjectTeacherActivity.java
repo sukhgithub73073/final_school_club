@@ -83,7 +83,7 @@ public class SubjectTeacherActivity extends BaseActivity {
         map.put("Unqid" , loginUserModel.collageUnqid) ;
         String json = new Gson().toJson(map) ;
         globalLoader.showLoader();
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             globalLoader.dismissLoader();
             list = (ArrayList<StaffModel>) fromJson(res,
                     new TypeToken<ArrayList<StaffModel>>() {
@@ -203,7 +203,7 @@ public class SubjectTeacherActivity extends BaseActivity {
         map.put("UpDtType" , ""+UpDtType) ;
         String json = new Gson().toJson(map) ;
         globalLoader.showLoader();
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             runOnUiThread(()->{
                 try {
                     globalLoader.dismissLoader();

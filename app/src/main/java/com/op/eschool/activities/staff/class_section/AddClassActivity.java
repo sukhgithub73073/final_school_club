@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -65,9 +66,13 @@ public class AddClassActivity extends BaseActivity {
 
 
         binding.back.setOnClickListener(v->{onBackPressed();});
+        RequestOptions requestOptions = new RequestOptions()
+                .placeholder(R.drawable.logo)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE);
         Glide.with(getApplicationContext())
                 .load(Utility.convertBase64ToBitmap(loginUserModel.getImage()))
-                .apply(new RequestOptions().placeholder(R.drawable.logo))
+                .apply(requestOptions)
                 .into(binding.logo)   ;
         ClassGrpAdded() ;
         binding.submit.setOnClickListener(v->{
@@ -95,7 +100,7 @@ public class AddClassActivity extends BaseActivity {
             String json = new Gson().toJson(map) ;
             FLog.w("ClassAdd" , "map" +json) ;
             globalLoader.showLoader();
-            webSocketManager.sendMessage(json , res->{
+            webSocketManager.sendMessage(map , res->{
                 runOnUiThread(()->{
                     try {
                         globalLoader.dismissLoader();
@@ -133,7 +138,7 @@ public class AddClassActivity extends BaseActivity {
         map.put("GroupId" ,"" + groupModel.getGroupId());
         String json = new Gson().toJson(map) ;
         globalLoader.showLoader();
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             runOnUiThread(()->{
                 try {
                     globalLoader.dismissLoader();
@@ -198,7 +203,7 @@ public class AddClassActivity extends BaseActivity {
         map.put("Unqid" ,loginUserModel.getCollageUnqid()) ;
         String json = new Gson().toJson(map) ;
         globalLoader.showLoader();
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             runOnUiThread(()->{
                 try {
                     globalLoader.dismissLoader();

@@ -16,6 +16,7 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -76,10 +77,13 @@ public class StaffHomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater , R.layout.fragment_staff_home, container, false);
         initADapters() ;
-
+        RequestOptions requestOptions = new RequestOptions()
+                .placeholder(R.drawable.round_profile)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE);
         Glide.with(getContext())
                 .load(Utility.convertBase64ToBitmap(loginUserModel.image))
-                .apply(new RequestOptions().placeholder(R.drawable.round_profile))
+                .apply(requestOptions)
                 .into(binding.schoolLogo) ;
 
         manageSchoolResponse() ;
@@ -130,7 +134,7 @@ public class StaffHomeFragment extends Fragment {
             map.put("type" , "GetCollageDetail") ;
             map.put("CollageId" ,CollageId) ;
             String json = new Gson().toJson(map) ;
-            webSocketManager.sendMessage(json , res->{
+            webSocketManager.sendMessage(map , res->{
                 getActivity().runOnUiThread(()->{
                     try {
                         commonDB.putString("GetCollageDetail" , res) ;
@@ -149,6 +153,7 @@ public class StaffHomeFragment extends Fragment {
 
         try {
             alertText =  loginUserModel.getCollageName() ;
+
             Glide.with(getContext())
                     .load(Utility.convertBase64ToBitmap(loginUserModel.getImage()))
                     .apply(new RequestOptions().placeholder(R.drawable.round_profile))

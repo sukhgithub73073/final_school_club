@@ -74,7 +74,7 @@ public class AddClassGroupActivity extends BaseActivity {
         map.put("GroupName" , binding.etName.getText().toString().toUpperCase()) ;
         String json = new Gson().toJson(map) ;
         globalLoader.showLoader();
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
           runOnUiThread(()->{
               try {
                   globalLoader.dismissLoader();
@@ -100,7 +100,7 @@ public class AddClassGroupActivity extends BaseActivity {
         map.put("Unqid" ,loginUserModel.getCollageUnqid()) ;
         String json = new Gson().toJson(map) ;
         globalLoader.showLoader();
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             runOnUiThread(()->{
                 try {
                     globalLoader.dismissLoader();

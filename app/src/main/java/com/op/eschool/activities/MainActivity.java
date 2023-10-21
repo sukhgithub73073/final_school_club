@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
@@ -149,9 +150,14 @@ public class MainActivity extends BaseActivity {
             name.setText("" + loginUserModel.getFullName() + " ( "+loginUserModel.type+" )" );
             mobile.setText("" + loginUserModel.getUserMobileNumber());
             email.setText("" + loginUserModel.getUserEmailId());
+            RequestOptions requestOptions = new RequestOptions()
+                    .placeholder(R.drawable.round_profile)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE);
+
             Glide.with(getApplicationContext())
                     .load(Utility.convertBase64ToBitmap(loginUserModel.getUserImage()))
-                    .apply(new RequestOptions().placeholder(R.drawable.round_profile))
+                    .apply(requestOptions)
                     .into(school_logo)   ;
         }catch (Exception e){e.printStackTrace();}
 

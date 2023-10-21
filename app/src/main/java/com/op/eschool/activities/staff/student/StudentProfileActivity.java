@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -48,9 +49,13 @@ public class StudentProfileActivity extends BaseActivity {
         try {
             model = new Gson().fromJson(commonDB.getString("STUDENT_DETAIL") ,StudentModel.class) ;
             binding.setModel(model) ;
+            RequestOptions requestOptions = new RequestOptions()
+                    .placeholder(R.drawable.students_placeholder)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE);
             Glide.with(getApplicationContext())
                     .load((model.Image))
-                    .apply(new RequestOptions().placeholder(R.drawable.students_placeholder))
+                    .apply(requestOptions)
                     .into(binding.ivAvatar)   ;
             binding.cvApprove.setVisibility(model.actionStatus.equalsIgnoreCase("PENDING")? View.VISIBLE:View.GONE) ;
 
@@ -91,7 +96,7 @@ public class StudentProfileActivity extends BaseActivity {
         map.put("UpDtType" , ""+UpDtType) ;
         String json = new Gson().toJson(map) ;
         globalLoader.showLoader();
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             StdntTblSocket(()->{
                 runOnUiThread(()->{
                     try {
@@ -126,7 +131,7 @@ public class StudentProfileActivity extends BaseActivity {
 //        map.put("type" ,"StdntTbl") ;
 //        map.put("Unqid" , loginUserModel.collageUnqid) ;
 //        String json = new Gson().toJson(map) ;
-//        webSocketManager.sendMessage(json , res->{
+//        webSocketManager.sendMessage(map , res->{
 //            runOnUiThread(()->{
 //
 //                collegeInterface.onRegisterClicked() ;

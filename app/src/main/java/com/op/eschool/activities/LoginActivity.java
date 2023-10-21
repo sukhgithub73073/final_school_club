@@ -111,6 +111,9 @@ public class LoginActivity extends BaseActivity {
 ////        Pink Perl University
             binding.etUniqe.setText("NP703304");
             binding.etPassword.setText("BT561300");
+/////         LDSD GIRLS INTER COLLEGE KANKARI
+//            binding.etUniqe.setText("TD435982");
+//            binding.etPassword.setText("XC993888");
 ////        staff
 //            binding.etUniqe.setText("CJ864532");
 //            binding.etPassword.setText("QQ494440");
@@ -150,13 +153,15 @@ public class LoginActivity extends BaseActivity {
         FLog.w("Schoologin" , "map" + new Gson().toJson(map)) ;
         globalLoader.showLoader() ;
         String json = new Gson().toJson(map) ;
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             runOnUiThread(()->{
                 try {
+                    FLog.w("Schoologin" ,"S>>>>>>>>>>>>>>" + res) ;
                     loginUserModel = new Gson().fromJson(res , LoginUserModel.class) ;
                     if (loginUserModel.status.equalsIgnoreCase(Constants.RESPONSE_SUCCESS)){
                         commonDB.putString(Constants.LOGIN_RESPONSE , new Gson().toJson(loginUserModel)) ;
                         commonDB.putString("SELECT_ROLE" , "" +loginUserModel.type) ;
+                        commonDB.putString(DB_SELECTED_GROUP_CLASS ,"") ;
                         GetClsAndGrpDt( pos -> {
                             globalLoader.dismissLoader();
                             if (loginUserModel.type.equalsIgnoreCase("Principle")){
@@ -181,7 +186,7 @@ public class LoginActivity extends BaseActivity {
                     Utility.showAnimatedDialog(ANIMATED_DAILOG_TYPE_FAILED , LoginActivity.this , "Exception>>>" + e.getMessage() ,()->{}) ;
                 }
             });
-        }) ;
+        }); ;
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -220,7 +225,7 @@ public class LoginActivity extends BaseActivity {
         map.put("type" ,"ClassGrpAdded") ;
         map.put("Unqid" ,""+ schoolModel.getUnqid()) ;
         String json = new Gson().toJson(map) ;
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             runOnUiThread(()->{
                 try {
                     commonDB.putString("ClassGrpAdded" , res) ;
@@ -238,7 +243,7 @@ public class LoginActivity extends BaseActivity {
 //        map.put("Unqid" ,""+ binding.etUniqe.getText().toString()) ;
         map.put("Unqid" ,""+ loginUserModel.getCollageUnqid());
         String json = new Gson().toJson(map) ;
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             runOnUiThread(()->{
                 try {
                     commonDB.putString("GetClsAndGrpDt" , res) ;

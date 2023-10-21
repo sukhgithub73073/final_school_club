@@ -96,7 +96,7 @@ public class ViewTimeTableActivity extends BaseActivity {
        String json = new Gson().toJson(map) ;
         FLog.w("GtTimeTable" ,"map>>>" +new Gson().toJson(map) );
         globalLoader.showLoader();
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             RESPONSE= res;
             runOnUiThread(()->{
                 globalLoader.dismissLoader();

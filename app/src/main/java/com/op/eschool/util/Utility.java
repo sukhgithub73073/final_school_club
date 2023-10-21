@@ -11,6 +11,8 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -472,7 +474,6 @@ public class Utility {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         }
         alertDialog.show();
-
         TextView title = alertDialog.findViewById(R.id.title)
                 , description =alertDialog.findViewById(R.id.description)
                 , btn_submit =alertDialog.findViewById(R.id.btn_submit)
@@ -497,7 +498,8 @@ public class Utility {
             icon = R.drawable.success_image ;
         }
         btn_submit.setText("Submit");
-        btn_retry.setText("Next");
+        btn_submit.setVisibility(View.GONE) ;
+        btn_retry.setText("Submit and Next");
         title.setText("" + titleStr) ;
         description.setText("" + msg) ;
         Glide.with(mActivity)
@@ -578,15 +580,6 @@ public class Utility {
 
 
 
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                alertDialog.dismiss();
-//                dialogDismissInterface.onDialogDismiss();
-//            }
-//        }, 3000) ;
-
-
     }
     public static void imageNoteDialog( Activity mActivity ,CommonInterface dialogDismissInterface) {
         androidx.appcompat.app.AlertDialog.Builder alertDialogbd = new androidx.appcompat.app.AlertDialog.Builder(mActivity,R.style.AlertDailogueTheme);
@@ -606,9 +599,6 @@ public class Utility {
             alertDialog.dismiss();
             dialogDismissInterface.onItemClicked(1);
         });
-
-
-
     }
     public static void showAnimatedDialogButton(String buttonTitle , String type , Activity mActivity , String msg , DialogDismissInterface dialogDismissInterface) {
         androidx.appcompat.app.AlertDialog.Builder alertDialogbd = new androidx.appcompat.app.AlertDialog.Builder(mActivity,R.style.AlertDailogueTheme);
@@ -620,8 +610,6 @@ public class Utility {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         }
         alertDialog.show();
-
-
         TextView title = alertDialog.findViewById(R.id.title)
                 , description =alertDialog.findViewById(R.id.description)
                 , btn_submit =alertDialog.findViewById(R.id.btn_submit)
@@ -632,7 +620,7 @@ public class Utility {
         String titleStr ="" ;
         int bgColor ;
         int icon ;
-        // ic_close
+
         if (type.equalsIgnoreCase("" + Constants.ANIMATED_DAILOG_TYPE_PENDING)){
             titleStr="PENDING";
             bgColor = R.color.pending_color ;
@@ -646,11 +634,8 @@ public class Utility {
             bgColor = R.color.success_color ;
             icon = R.drawable.success_image ;
         }
-
         title.setText("" + titleStr) ;
         title.setVisibility(View.GONE);
-
-
         description.setText("" + msg) ;
         Glide.with(mActivity)
                 .load(icon)
@@ -763,20 +748,24 @@ public class Utility {
         }
     }
     public static CommonResponse convertResponse(String res) {
-        CommonResponse response = new CommonResponse() ;
-        try {
-            ArrayList<CommonResponse> list = (ArrayList<CommonResponse>) fromJson(res,
-                    new TypeToken<ArrayList<CommonResponse>>() {
-                    }.getType());
-            if (list.size()>0){
-                return list.get(0) ;
-            }else{
+        if (!res.startsWith("[")){
+            CommonResponse response = new Gson().fromJson(res , CommonResponse.class) ;
+            return  response ;
+        }else{
+            CommonResponse response = new CommonResponse() ;
+            try {
+                ArrayList<CommonResponse> list = (ArrayList<CommonResponse>) fromJson(res,
+                        new TypeToken<ArrayList<CommonResponse>>() {
+                        }.getType());
+                if (list.size()>0){
+                    return list.get(0) ;
+                }else{
+                    return response ;
+                }
+            } catch (Exception e) {
                 return response ;
             }
-        } catch (Exception e) {
-            return response ;
         }
-
     }
     public static ArrayList<SubCasteModel> convertSubCasteList(String res) {
         try {
@@ -843,7 +832,7 @@ public class Utility {
         List<ClassGroupModel> groupModelList  =new ArrayList<>() ;
 
        try {
-           FLog.w("SDfdsf" , "SDFfsd>>>>>>" + new CommonDB(context).getString("GetClsAndGrpDt") );
+
            String getClsAndGrpDtRes = new CommonDB(context).getString("GetClsAndGrpDt");
            getClsAndGrpDtRes = getClsAndGrpDtRes.replace("\\xa0","") ;
            List<AllClassModel> allList = (List<AllClassModel>) fromJson(getClsAndGrpDtRes,
@@ -1040,7 +1029,7 @@ public class Utility {
         map.put("type" ,"GetClsAndGrpDt") ;
         map.put("Unqid" ,"" + Unqid) ;
         String json = new Gson().toJson(map) ;
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
                 try {
                     commonDB.putString("GetClsAndGrpDt" , res) ;
                     commonInterface.onItemClicked(0) ;
@@ -1048,5 +1037,18 @@ public class Utility {
                     e.printStackTrace();
                 }
         }) ;
+    }
+
+    public static String getPackageVersion(Context context){
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(context.getPackageName() , 0);
+            String playStoreVersion = packageInfo.versionName;
+            return playStoreVersion ;
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return "0.0.0" ;
+        }
     }
 }

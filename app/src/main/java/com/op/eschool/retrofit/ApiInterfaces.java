@@ -36,7 +36,9 @@ public interface ApiInterfaces {
    @GET()
    Call<List<com.op.eschool.models.pincode_api_model.PincodeModel>> pincodeApi (@Url String url);
 
-
+   @Headers("Content-Type: application/json")
+   @POST()
+   Call<Object> commonApi(@Url String url , @Body Map<String, String> requestBody);
 
 
 }

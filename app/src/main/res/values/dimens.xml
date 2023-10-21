@@ -9,5 +9,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="positive_5dp">5dp</dimen>
+    <dimen name="positive_10dp">10dp</dimen>
 
 </resources>

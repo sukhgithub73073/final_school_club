@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -57,9 +58,13 @@ public class AddSubjectActivity extends BaseActivity {
         globalLoader = new GlobalLoader(AddSubjectActivity.this) ;
 
         binding.back.setOnClickListener(v->{onBackPressed();});
+        RequestOptions requestOptions = new RequestOptions()
+                .placeholder(R.drawable.logo)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE);
         Glide.with(getApplicationContext())
                 .load(Utility.convertBase64ToBitmap(loginUserModel.getImage()))
-                .apply(new RequestOptions().placeholder(R.drawable.logo))
+                .apply(requestOptions)
                 .into(binding.logo)   ;        ClassGrpAdded() ;
         binding.submit.setOnClickListener(v->{
             if (groupModel==null){
@@ -92,7 +97,7 @@ public class AddSubjectActivity extends BaseActivity {
             FLog.w("ClassAdd", "map" + json);
 
             globalLoader.showLoader();
-            webSocketManager.sendMessage(json, res -> {
+            webSocketManager.sendMessage(map, res -> {
                 runOnUiThread(() -> {
                     try {
                         globalLoader.dismissLoader();
@@ -134,7 +139,7 @@ public class AddSubjectActivity extends BaseActivity {
         map.put("GroupId" ,"" + groupModel.getGroupId());
         String json = new Gson().toJson(map) ;
         globalLoader.showLoader();
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             runOnUiThread(()->{
                 try {
                     globalLoader.dismissLoader();

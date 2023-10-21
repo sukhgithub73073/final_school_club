@@ -77,7 +77,7 @@ public class PromotionActivity extends BaseActivity {
             map.put("Class" ,""+ selectedClass.getClassId()) ;
             String json = new Gson().toJson(map) ;
             globalLoader.showLoader();
-            webSocketManager.sendMessage(json , res->{
+            webSocketManager.sendMessage(map , res->{
 
                 runOnUiThread(()->{
                     try {
@@ -133,7 +133,7 @@ public class PromotionActivity extends BaseActivity {
         map.put("Unqid" , loginUserModel.collageUnqid) ;
         String json = new Gson().toJson(map) ;
         globalLoader.showLoader();
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             globalLoader.dismissLoader();
             studentList.clear() ;
             studentList.addAll((ArrayList<StudentModel>) fromJson(res,

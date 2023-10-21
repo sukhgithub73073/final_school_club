@@ -75,7 +75,7 @@ public class TimetablesSettingActivity extends BaseActivity {
         map.put("Unqid" , loginUserModel.collageUnqid) ;
         String json = new Gson().toJson(map) ;
         globalLoader.showLoader();
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             runOnUiThread(()->{
                 try {
                     globalLoader.dismissLoader();
@@ -115,7 +115,7 @@ public class TimetablesSettingActivity extends BaseActivity {
 //        map.put("Unqid" , loginUserModel.collageUnqid) ;
 //        globalLoader.showLoader();
 //        String json = new Gson().toJson(map) ;
-//        webSocketManager.sendMessage(json , res->{
+//        webSocketManager.sendMessage(map , res->{
 //
 //            runOnUiThread(()->{
 //                globalLoader.dismissLoader();
@@ -167,7 +167,7 @@ public class TimetablesSettingActivity extends BaseActivity {
         map.put("GroupId" ,"" + groupModel.getGroupId());
         String json = new Gson().toJson(map) ;
         globalLoader.showLoader();
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             runOnUiThread(()->{
                 try {
                     globalLoader.dismissLoader();
@@ -219,7 +219,7 @@ public class TimetablesSettingActivity extends BaseActivity {
         map.put("GroupId" ,"" + groupModel.getGroupId());
         String json = new Gson().toJson(map) ;
         globalLoader.showLoader();
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             runOnUiThread(()->{
                 try {
                     globalLoader.dismissLoader();
@@ -254,7 +254,7 @@ public class TimetablesSettingActivity extends BaseActivity {
         String json = new Gson().toJson(map) ;
         FLog.w("GtTimeTable" ,"map>>>" +new Gson().toJson(map) );
         globalLoader.showLoader();
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             RESPONSE= res;
             runOnUiThread(()->{
                 globalLoader.dismissLoader();
@@ -279,7 +279,7 @@ public class TimetablesSettingActivity extends BaseActivity {
         map.put("type" ,"GetTimeDuration") ;
         map.put("Unqid" , loginUserModel.collageUnqid) ;
         String json = new Gson().toJson(map) ;
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             runOnUiThread(()->{
                 try {
                     ArrayList<TimeDurationModel> list = (ArrayList<TimeDurationModel>) fromJson(res,
@@ -331,7 +331,7 @@ public class TimetablesSettingActivity extends BaseActivity {
         map.put("SubSubject" ,""+timeTableModel.getSubject()) ;
         map.put("TimeTableId" ,""+timeTableModel.getTimeTableId()) ;
         String json = new Gson().toJson(map) ;
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             try {
                 runOnUiThread(()->{
                     CommonResponse commonResponse = Utility.convertResponse(res) ;

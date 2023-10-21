@@ -15,6 +15,7 @@ import com.op.eschool.util.websockets.WebSocketManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class StaffRegisterService extends Service {
 
@@ -40,10 +41,10 @@ public class StaffRegisterService extends Service {
     }
 
     private void registerApi() {
-        String json = staffRegisterList.get(0) ;
+        Map<String,String> map = staffRegisterList.get(0) ;
         WebSocketManager webSocketManager = new WebSocketManager();
         webSocketManager.startWebSocket();
-        webSocketManager.sendMessage(json ,res->{
+        webSocketManager.sendMessage(map ,res->{
             staffRegisterList.remove(0) ;
             performAction();
         });

@@ -11,7 +11,7 @@ public class StaffModel {
     public String status;
 
 
-    @SerializedName("imgLink")
+    @SerializedName("imgLink2")
     @Expose
     public String Image="";
     @SerializedName("ImageExt")
@@ -120,6 +120,8 @@ public class StaffModel {
     @SerializedName("type")
     @Expose
     public String type;
+
+
 
     public void setStatus(String status) {
         this.status = status;

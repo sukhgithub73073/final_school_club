@@ -64,7 +64,7 @@ public class ParentsListActivity extends BaseActivity {
         if (list.size() == 0){
             globalLoader.showLoader();
         }
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             if (list.size() == 0){
                 globalLoader.dismissLoader();
             }

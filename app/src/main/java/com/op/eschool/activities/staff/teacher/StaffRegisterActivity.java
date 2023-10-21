@@ -570,7 +570,7 @@
 //        map.put("Image" ,"" + Image) ;
 //        String json = new Gson().toJson(map) ;
 //        globalLoader.showLoader();
-//        webSocketManager.sendMessage(json , res->{
+//        webSocketManager.sendMessage(map , res->{
 //            runOnUiThread(()->{
 //                try {
 //                    globalLoader.dismissLoader();
@@ -902,7 +902,7 @@
 //        globalLoader.showLoader();
 //
 //        String json = new Gson().toJson(map) ;
-//        webSocketManager.sendMessage(json , res->{
+//        webSocketManager.sendMessage(map , res->{
 //            runOnUiThread(()->{
 //                try {
 //                    globalLoader.dismissLoader();

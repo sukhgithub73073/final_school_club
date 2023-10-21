@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".activities.LoginTypeActivity"
+
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_150sdp"
+            android:background="@drawable/top_rounded">
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_120sdp"
+            android:layout_gravity="center"
+            android:layout_marginTop="-80dp"
+            android:background="@drawable/round_top"
+            android:gravity="center"
+
+            >
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_gravity="center"
+                android:src="@drawable/logo"
+
+                />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:text="New version is now Available"
+            android:textColor="@color/primary_color"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:gravity="center"
+            android:text="With this new version you have access to more customization features and better performance.Please click the below to upgrade your dashboard"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13ssp"
+             />
+
+
+        <TextView
+            android:id="@+id/update"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:textStyle="bold"
+            android:layout_margin="@dimen/_30sdp"
+            android:textColor="@color/white"
+
+            android:text="Update"
+            android:background="@drawable/btn_bg"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="@dimen/_15ssp" />
+
+    </LinearLayout>
+</layout>

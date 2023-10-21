@@ -1,53 +1,59 @@
 package com.op.eschool.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
-import android.app.ListActivity;
-import android.content.Intent;
+import android.hardware.Camera;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 
 import com.op.eschool.R;
-import com.op.eschool.tables.FamilyTable;
-import com.op.eschool.tables.SimpleTable;
-import com.op.eschool.tables.StyleTable;
+import com.op.eschool.base.BaseActivity;
+import com.op.eschool.databinding.ActivityTestBinding;
 
-public class TestActivity extends ListActivity {
+public class TestActivity extends BaseActivity implements SurfaceHolder.Callback {
+
+    private Camera camera;
+    private SurfaceView surfaceView;
+    private SurfaceHolder surfaceHolder;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+        surfaceView = findViewById(R.id.surfaceView);
+        surfaceHolder = surfaceView.getHolder();
+        surfaceHolder.addCallback(this);
 
-
-        B b[] = new B[] {
-                new B(getString(R.string.simple_adapter), SimpleTable.class),
-                new B(getString(R.string.style_adapter), StyleTable.class),
-                new B(getString(R.string.family_adapter), FamilyTable.class),
-        };
-        setListAdapter(new ArrayAdapter<B>(this, android.R.layout.simple_list_item_1, android.R.id.text1, b));
     }
 
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        startActivity(new Intent(this, ((B) l.getItemAtPosition(position)).class1));
+    public void surfaceCreated(SurfaceHolder holder) {
+        try {
+            // Open the camera and set the preview display to the SurfaceView
+            camera = Camera.open();
+            camera.setPreviewDisplay(holder);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private class B {
-        private final String string;
-        private final Class<? extends Activity> class1;
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        // Configure camera parameters, e.g., set preview size and orientation
+        Camera.Parameters params = camera.getParameters();
+        params.setPreviewSize(width, height);
+        camera.setParameters(params);
+        camera.startPreview();
+    }
 
-        B(String string, Class<? extends Activity> class1) {
-            this.string = string;
-            this.class1 = class1;
-        }
-
-        @Override
-        public String toString() {
-            return string;
-        }
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        // Release the camera when the SurfaceView is destroyed
+        camera.stopPreview();
+        camera.release();
+        camera = null;
     }
 }

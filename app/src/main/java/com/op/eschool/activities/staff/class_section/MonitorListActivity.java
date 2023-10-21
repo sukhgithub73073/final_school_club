@@ -83,7 +83,7 @@ public class MonitorListActivity extends BaseActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             try {
                 runOnUiThread(()->{
                     globalLoader.dismissLoader();

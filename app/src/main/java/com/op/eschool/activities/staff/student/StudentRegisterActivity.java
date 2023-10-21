@@ -550,7 +550,7 @@
 //        map.put("Image" ,"" + Image) ;
 //        String json = new Gson().toJson(map) ;
 //        globalLoader.showLoader();
-//        webSocketManager.sendMessage(json , res->{
+//        webSocketManager.sendMessage(map , res->{
 //            runOnUiThread(()->{
 //                try {
 //                    globalLoader.dismissLoader();
@@ -807,7 +807,7 @@
 //        globalLoader.showLoader();
 //
 //        String json = new Gson().toJson(map) ;
-//        webSocketManager.sendMessage(json , res->{
+//        webSocketManager.sendMessage(map , res->{
 //            runOnUiThread(()->{
 //                try {
 //                    globalLoader.dismissLoader();
@@ -997,7 +997,7 @@
 ////        map.put("Unqid" ,schoolModel.getUnqid()) ;
 ////        globalLoader.showLoader();
 ////        String json = new Gson().toJson(map) ;
-////        webSocketManager.sendMessage(json , res->{
+////        webSocketManager.sendMessage(map , res->{
 ////            runOnUiThread(()->{
 ////                globalLoader.dismissLoader();
 ////                try {
@@ -1054,7 +1054,7 @@
 //        map.put("GroupId" ,"" + groupModel.getGroupId());
 //        String json = new Gson().toJson(map) ;
 //        globalLoader.showLoader();
-//        webSocketManager.sendMessage(json , res->{
+//        webSocketManager.sendMessage(map , res->{
 //            runOnUiThread(()->{
 //                try {
 //                    globalLoader.dismissLoader();
@@ -1078,7 +1078,7 @@
 //        map.put("GroupId" ,"" + groupModel.getGroupId());
 //        String json = new Gson().toJson(map) ;
 //        globalLoader.showLoader();
-//        webSocketManager.sendMessage(json , res->{
+//        webSocketManager.sendMessage(map , res->{
 //            runOnUiThread(()->{
 //                try {
 //                    globalLoader.dismissLoader();

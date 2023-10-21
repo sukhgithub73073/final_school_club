@@ -19,6 +19,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.leo.searchablespinner.SearchableSpinner;
@@ -122,10 +123,13 @@ public class TeacherProfileActivity extends BaseActivity {
             model = new Gson().fromJson(commonDB.getString("STAFF_DETAIL") ,StaffModel.class) ;
             binding.setModel(model) ;
             binding.cvApprove.setVisibility(model.getActionStatus().equalsIgnoreCase("PENDING")? View.VISIBLE:View.GONE) ;
-
+            RequestOptions requestOptions = new RequestOptions()
+                    .placeholder(R.drawable.students_placeholder)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE);
             Glide.with(getApplicationContext())
                     .load((model.Image))
-                    .apply(new RequestOptions().placeholder(R.drawable.students_placeholder))
+                    .apply(requestOptions)
                     .into(binding.ivAvatar)   ;
 
         } catch (Exception e) {
@@ -141,7 +145,7 @@ public class TeacherProfileActivity extends BaseActivity {
         map.put("UpDtType" , ""+UpDtType) ;
         String json = new Gson().toJson(map) ;
         globalLoader.showLoader();
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
 
             runOnUiThread(()->{
                 try {
@@ -179,7 +183,7 @@ public class TeacherProfileActivity extends BaseActivity {
         map.put("Designation" , Designation.replace(" ","").trim()) ;
         String json = new Gson().toJson(map) ;
         globalLoader.showLoader();
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             runOnUiThread(()->{
                 try {
                     globalLoader.dismissLoader();

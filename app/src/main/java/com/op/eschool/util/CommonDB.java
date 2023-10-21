@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,4 +70,20 @@ public class CommonDB {
         return new ArrayList<>() ;
     }
 
+
+    public void putMap(String key, Map<String, String> map) {
+        Gson gson = new Gson();
+        String json = gson.toJson(map);
+        editor.putString(key, json);
+        editor.apply();
+    }
+
+    public Map<String, String> getMap(String key) {
+        String json = sharedPreferences.getString(key, null);
+        if (json != null) {
+            Gson gson = new Gson();
+            return gson.fromJson(json, new TypeToken<HashMap<String, String>>() {}.getType());
+        }
+        return new HashMap<>();
+    }
 }

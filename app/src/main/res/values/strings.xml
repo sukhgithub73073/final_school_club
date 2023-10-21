@@ -7,6 +7,31 @@
     <string name="style_adapter">Style adapter</string>
     <string name="family_adapter">Family adapter</string>
 
+    <string name="camerax">CameraX</string>
+    <string name="cam_analyze">Camera With Analyzer</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="mlkit">ML Kit | Face Detection</string>
+    <string name="realtime_face_detection">Real Time Face Detection</string>
+    <string name="capture_face_detection">Capturing &amp; Face Detection</string>
+    <string name="face_tracking">Face Detection and Tracking</string>
+    <string name="mlkit_object">ML Kit | Object Detection</string>
+    <string name="realtime_object_detection">Real Time Object Detection</string>
+    <string name="custom_model">Custom Model</string>
+    <string name="object_detection_local">Object Detection | Local</string>
+    <string name="image_classification_local">Image Classification | Local</string>
+    <string name="object_detection_local_video">Object Detection Video | Local</string>
+
+    <string name="ok">OK</string>
+    <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
+    <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
+    <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
+
+
+    <string name="touch_to_focus">touch the screen to focus</string>
+    <string name="crop_fail">Crop failed</string>
+    <string name="no_flash">The device does not support a flash/flashlight</string>
+
 
     <string-array name="blood_group">
         <item>A+</item>

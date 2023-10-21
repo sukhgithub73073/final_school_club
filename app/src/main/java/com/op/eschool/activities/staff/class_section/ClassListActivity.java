@@ -68,7 +68,7 @@ public class ClassListActivity extends BaseActivity {
                 .replace("\\","")
         ;
         globalLoader.showLoader();
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             try {
                 runOnUiThread(()->{
                     globalLoader.dismissLoader();

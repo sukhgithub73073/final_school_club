@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
@@ -30,6 +31,7 @@ import com.op.eschool.activities.staff.attendance.AttendanceActivity;
 import com.op.eschool.activities.staff.attendance.AttendanceMonthlyActivity;
 import com.op.eschool.activities.staff.class_section.ClassListActivity;
 import com.op.eschool.activities.staff.class_section.ClassStudentListActivity;
+import com.op.eschool.activities.staff.class_section.ClassTeacherListActivity;
 import com.op.eschool.activities.staff.class_section.MonitorListActivity;
 import com.op.eschool.activities.staff.class_section.SubjectTeacherActivity;
 import com.op.eschool.activities.staff.leave.LeaveListActivity;
@@ -107,9 +109,13 @@ public class PrincipleMainActivity extends BaseActivity {
             name.setText("" + loginUserModel.getCollageName() + " ( "+loginUserModel.type+" )" );
             mobile.setText("" + loginUserModel.getMobileNumber());
             email.setText("" + loginUserModel.getEmailId());
+            RequestOptions requestOptions = new RequestOptions()
+                    .placeholder(R.drawable.round_profile)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE);
             Glide.with(getApplicationContext())
                     .load(Utility.convertBase64ToBitmap(loginUserModel.getImage()))
-                    .apply(new RequestOptions().placeholder(R.drawable.round_profile))
+                    .apply(requestOptions)
                     .into(school_logo)   ;
         }catch (Exception e){e.printStackTrace();}
     }
@@ -184,8 +190,8 @@ public class PrincipleMainActivity extends BaseActivity {
         classSection.add(new DrawerModel(R.drawable.attendance, "Class List", new Intent(getApplicationContext() , ClassListActivity.class).putExtra("TYPE" , "ClsTbl")));
         classSection.add(new DrawerModel(R.drawable.attendance, "Student List", new Intent(getApplicationContext() , StudentListActivity.class)));
         classSection.add(new DrawerModel(R.drawable.attendance, "Monitor", new Intent(getApplicationContext() , MonitorListActivity.class)));
-        classSection.add(new DrawerModel(R.drawable.attendance, "Class Teacher", new Intent(getApplicationContext() , TeacherListActivity.class)));
-        classSection.add(new DrawerModel(R.drawable.attendance, "Subject Teacher", new Intent(getApplicationContext() , SubjectTeacherActivity.class)));
+        classSection.add(new DrawerModel(R.drawable.attendance, "Class Teacher", new Intent(getApplicationContext() , ClassTeacherListActivity.class).putExtra("type","GetSubTechrDtAll")));
+        classSection.add(new DrawerModel(R.drawable.attendance, "Subject Teacher", new Intent(getApplicationContext() , ClassTeacherListActivity.class).putExtra("type","GetSubTechrDt")));
         //classSection.add(new DrawerModel(R.drawable.attendance, "Add New Class",  new Intent(getApplicationContext() , AddClassActivity.class)));
         drawerList.add(new StaffDrawerModel(R.drawable.ic_class ,"Class", classSection)) ;
 
@@ -329,9 +335,13 @@ public class PrincipleMainActivity extends BaseActivity {
             name.setText("" + schoolModel.getCollageName() + " ( "+commonResponse.Type+" )" );
             mobile.setText("" + schoolModel.getMobileNumber());
             email.setText("" + schoolModel.getEmailId());
+            RequestOptions requestOptions = new RequestOptions()
+                    .placeholder(R.drawable.round_profile)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE);
             Glide.with(getApplicationContext())
                     .load(Utility.convertBase64ToBitmap(schoolModel.getImage()))
-                    .apply(new RequestOptions().placeholder(R.drawable.round_profile))
+                    .apply(requestOptions)
                     .into(school_logo)   ;
         }catch (Exception e){e.printStackTrace();}
 

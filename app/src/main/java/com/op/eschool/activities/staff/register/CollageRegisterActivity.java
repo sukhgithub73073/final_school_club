@@ -27,6 +27,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
@@ -406,9 +407,13 @@ public class CollageRegisterActivity extends BaseActivity {
                 try {
                     binding.image.setPadding(5,5,5,5) ;
                     uploadFile = FileUtils.getFileFromUri(getApplicationContext(), resultUri) ;
+                    RequestOptions requestOptions = new RequestOptions()
+                            .placeholder(R.drawable.plus)
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE);
                     Glide.with(getApplicationContext())
                             .load(uploadFile)
-                            .apply(new RequestOptions().placeholder(R.drawable.plus))
+                            .apply(requestOptions)
                             .into(binding.image)   ;
 
                 } catch (Exception e) {

@@ -48,7 +48,6 @@ public class SchoolInfoActivity extends BaseActivity {
         binding.back.setOnClickListener(v->{onBackPressed();});
 
         binding.btnNext.setOnClickListener(v->{
-            //525354
             if (!Utility.isNetworkConnectedMainThred(getApplicationContext())){
                 FToast.makeText(getApplicationContext(), "No Internet Connection.", FToast.LENGTH_SHORT).show();
             }else if (binding.etCode.getText().toString().equalsIgnoreCase("")){
@@ -58,16 +57,13 @@ public class SchoolInfoActivity extends BaseActivity {
             }
         });
     }
-
-
-
     private void ChkSchlCode() {
         Map<String , String> map = new HashMap<>() ;
         map.put("type" ,"ChkSchlCode") ;
         map.put("SchoolCode" , binding.etCode.getText().toString().toUpperCase()) ;
         String json = new Gson().toJson(map) ;
         globalLoader.showLoader();
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             RESPONSE = res ;
             runOnUiThread(()->{
                 try {
@@ -85,8 +81,6 @@ public class SchoolInfoActivity extends BaseActivity {
                                     msg =msg.replace("type","Student") ;
                                 }
                                 msg =msg.replace("school_name",""+getSchoolModel.getCollageName() ) ;
-
-
                                 Utility.showAnimatedDialogButton("OK" ,ANIMATED_DAILOG_TYPE_SUCESS , SchoolInfoActivity.this , "" + msg ,()->{
                                     finish() ;
                                     String code =binding.etCode.getText().toString().substring(0,1) ;
@@ -94,7 +88,6 @@ public class SchoolInfoActivity extends BaseActivity {
                                         startActivity(new Intent(getApplicationContext() , SignUpStaffActivity.class).putExtra("TYPE" ,"REGISTER_STAFF")) ;
                                     }else{
                                         startActivity(new Intent(getApplicationContext() , SignUpStudentActivity.class).putExtra("TYPE" ,"REGISTER_STUDENT")) ;
-
                                     }
                                 }) ;
                             }) ;
@@ -116,7 +109,7 @@ public class SchoolInfoActivity extends BaseActivity {
         map.put("type" , "GetCollageDetail") ;
         map.put("CollageId" ,CollageId) ;
         String json = new Gson().toJson(map) ;
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             runOnUiThread(()->{
                 try {
                     commonDB.putString("GetCollageDetail" , res) ;
@@ -136,7 +129,7 @@ public class SchoolInfoActivity extends BaseActivity {
         map.put("type" ,"GetClsAndGrpDt") ;
         map.put("Unqid" ,""+ Unqid) ;
         String json = new Gson().toJson(map) ;
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             runOnUiThread(()->{
                 try {
                     commonDB.putString("GetClsAndGrpDt" , res) ;

@@ -253,6 +253,8 @@
                         android:background="@color/white"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.TextInputLayout.Rounded"
+                        app:prefixText="MR. "
+
                         >
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/et_fname"
@@ -275,6 +277,7 @@
                         android:background="@color/white"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.TextInputLayout.Rounded"
+                        app:prefixText="MRS. "
                         >
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/et_mname"
@@ -477,7 +480,9 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_marginTop="@dimen/_5sdp"
-                        android:layout_marginStart="@dimen/_2sdp">
+                        android:layout_marginStart="@dimen/_2sdp"
+                        android:visibility="gone"
+                        >
 
                         <CheckBox
                             android:id="@+id/check_offline"

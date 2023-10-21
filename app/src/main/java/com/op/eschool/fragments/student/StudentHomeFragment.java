@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.op.eschool.R;
 import com.op.eschool.activities.student.attendance.SubjectAttendanceActivity;
@@ -54,17 +55,18 @@ public class StudentHomeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater , R.layout.fragment_student_home, container, false);
-
+        RequestOptions requestOptions = new RequestOptions()
+                .placeholder(R.drawable.round_profile)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE);
         Glide.with(getContext())
-                .load(Utility.convertBase64ToBitmap(loginUserModel.image))
-                .apply(new RequestOptions().placeholder(R.drawable.round_profile))
-                .into(binding.schoolLogo)   ;
+                .load((loginUserModel.image))
+                .apply(requestOptions)
+                .into(binding.schoolLogo);
         list.add(new DashboardModel("Attendance" ,R.drawable.attendance, new Intent(getContext() , SubjectAttendanceActivity.class)));
         list.add(new DashboardModel("Homework" ,R.drawable.homework, null));
         list.add(new DashboardModel("Result" ,R.drawable.exam, null));

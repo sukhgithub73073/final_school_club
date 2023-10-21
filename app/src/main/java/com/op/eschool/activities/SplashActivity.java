@@ -1,24 +1,18 @@
 package com.op.eschool.activities;
 
 import static com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE;
-import static com.op.eschool.base.MyApplication.studentRegisterList;
-import static com.op.eschool.util.Constants.ANIMATED_DAILOG_TYPE_FAILED;
-import static com.op.eschool.util.Constants.ANIMATED_DAILOG_TYPE_SUCESS;
 import static com.op.eschool.util.Constants.DB_APP_OPEN_AT;
 import static com.op.eschool.util.Constants.DB_SELECTED_GROUP_CLASS;
-import static com.op.eschool.util.Constants.DB_STUDENT_OFFINE_LIST;
-import static com.op.eschool.util.Utility.fromJson;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
@@ -28,7 +22,7 @@ import com.google.android.play.core.tasks.OnFailureListener;
 import com.google.android.play.core.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+
 import com.op.eschool.R;
 import com.op.eschool.activities.staff.StaffMainActivity;
 import com.op.eschool.activities.staff.principle.PrincipleMainActivity;
@@ -43,7 +37,6 @@ import com.op.eschool.util.Constants;
 import com.op.eschool.util.FLog;
 import com.op.eschool.util.Utility;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 public class SplashActivity extends BaseActivity {
@@ -56,6 +49,9 @@ public class SplashActivity extends BaseActivity {
         registerModel = new RegisterModel() ;
         commonDB.putString("STUDENT_DETAIL" , "") ;
         commonDB.putString(DB_SELECTED_GROUP_CLASS ,"") ;
+
+        FLog.w("sdfdd" ,">>>>>>>>>>>>>" + Utility.getPackageVersion(getApplicationContext())) ;
+
 
         checkTime() ;
         offlineServices() ;
@@ -71,7 +67,12 @@ public class SplashActivity extends BaseActivity {
             commonDB.putLong(DB_APP_OPEN_AT , now);
             long timeDifferenceInMillis = now - openAt;
             long timeDifferenceInMinutes = timeDifferenceInMillis / (60 * 1000); // Convert milliseconds to minutes
-            if (timeDifferenceInMinutes > 10){Utility.userLogout(getApplicationContext());}
+            if (timeDifferenceInMinutes > 10){
+                if (!commonDB.getString(Constants.LOGIN_RESPONSE).equalsIgnoreCase("")) {
+                    Utility.userLogout(getApplicationContext());
+                }
+
+            }
             FLog.w("checkTime" ,"timeDifferenceInMinutes" + timeDifferenceInMinutes);
         }
     }
@@ -99,8 +100,12 @@ public class SplashActivity extends BaseActivity {
             }
         }) ;
     }
-
     void gotoNextActivity(){
+//        if (true){
+//            startActivity(new Intent(getApplicationContext() , SelfieMainActivity.class)
+//                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)) ;
+//            return ;
+//        }
         new Handler().postDelayed(()->{
             if (commonDB.getString(Constants.LOGIN_RESPONSE).equalsIgnoreCase("")){
                 startActivity(new Intent(getApplicationContext() , LoginActivity.class)
@@ -127,7 +132,7 @@ public class SplashActivity extends BaseActivity {
 //        Map<String , String> map = new HashMap<>() ;
 //        map.put("type" , "AllInOneDt") ;
 //        String json = new Gson().toJson(map) ;
-//        webSocketManager.sendMessage(json , res->{
+//        webSocketManager.sendMessage(map , res->{
 //            runOnUiThread(()->{
 //                try {
 //                    commonDB.putString("AllInOneDt" , res) ;
@@ -143,7 +148,7 @@ public class SplashActivity extends BaseActivity {
         map.put("type" ,"GetClsAndGrpDt");
         map.put("Unqid" ,""+ loginUserModel.getCollageUnqid());
         String json = new Gson().toJson(map) ;
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             runOnUiThread(()->{
                 try {
                     commonDB.putString("GetClsAndGrpDt" , res) ;
@@ -164,7 +169,8 @@ public class SplashActivity extends BaseActivity {
                 if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
                         && appUpdateInfo.isUpdateTypeAllowed(IMMEDIATE)) {
                     try {
-                        appUpdateManager.startUpdateFlowForResult(appUpdateInfo, IMMEDIATE , SplashActivity.this ,10 ) ;
+                        startActivity(new Intent(getApplicationContext() ,UpdateActivity.class)) ;
+                        // appUpdateManager.startUpdateFlowForResult(appUpdateInfo, IMMEDIATE , SplashActivity.this ,10 ) ;
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -194,9 +200,15 @@ public class SplashActivity extends BaseActivity {
         AllInOneDt(pos->{
             if (!commonDB.getString(Constants.LOGIN_RESPONSE).equalsIgnoreCase("")){
                 loginUserModel = Utility.getLoginUser(getApplicationContext()) ;
+
+                RequestOptions requestOptions = new RequestOptions()
+                        .placeholder(R.drawable.logo)
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE);
+
                 Glide.with(getApplicationContext())
                         .load(Utility.convertBase64ToBitmap(loginUserModel.getImage()))
-                        .apply(new RequestOptions().placeholder(R.drawable.logo))
+                        .apply(requestOptions)
                         .into(binding.logo)   ;
                 binding.schoolName.setText("WELCOME " + loginUserModel.getCollageName()) ;
                 GetClsAndGrpDt(d->{

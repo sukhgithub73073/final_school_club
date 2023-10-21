@@ -61,7 +61,7 @@ public class ComplaintsActivity extends BaseActivity {
         map.put("Unqid" , loginUserModel.collageUnqid) ;
         String json = new Gson().toJson(map) ;
 
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             runOnUiThread(()->{
                 try {
                     list = (ArrayList<ComplaintsModel>) fromJson(res,

@@ -137,7 +137,7 @@ public class ClassStudentListActivity extends BaseActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             try {
                 runOnUiThread(()->{
                     ClassGrpAdded() ;
@@ -264,7 +264,7 @@ public class ClassStudentListActivity extends BaseActivity {
         map.put("UpDtType" , ""+UpDtType) ;
         String json = new Gson().toJson(map) ;
         globalLoader.showLoader();
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             globalLoader.dismissLoader();
             runOnUiThread(()->{
                 try {
@@ -417,7 +417,7 @@ public class ClassStudentListActivity extends BaseActivity {
 //        map.put("Unqid" , loginUserModel.collageUnqid) ;
 //        //  globalLoader.showLoader();
 //        String json = new Gson().toJson(map) ;
-//        webSocketManager.sendMessage(json , res->{
+//        webSocketManager.sendMessage(map , res->{
 //            runOnUiThread(()->{
 //                // globalLoader.dismissLoader();
 //                try {
@@ -439,7 +439,7 @@ public class ClassStudentListActivity extends BaseActivity {
         map.put("GroupId" ,"" + groupModel.getGroupId());
         String json = new Gson().toJson(map) ;
         //globalLoader.showLoader();
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             runOnUiThread(()->{
                 try {
                     //globalLoader.dismissLoader();

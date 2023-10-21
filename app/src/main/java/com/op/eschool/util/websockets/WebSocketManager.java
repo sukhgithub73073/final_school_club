@@ -4,10 +4,15 @@ import static com.op.eschool.base.BaseActivity.activity;
 
 import com.google.gson.Gson;
 import com.op.eschool.interfaces.WebSocketInterface;
+import com.op.eschool.retrofit.RetrofitClient;
 import com.op.eschool.util.FLog;
+
+import org.json.JSONObject;
 
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -18,6 +23,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class WebSocketManager {
     private static final int RECONNECT_INTERVAL = 5000;
@@ -94,14 +102,25 @@ public class WebSocketManager {
         webSocket = client.newWebSocket(request, listener);
         }
     }
-    public void sendMessage(String message , WebSocketInterface socketInterface) {
-        FLog.w("WebSocketManager"  , "sendMessage" + message ) ;
-        this.socketInterface = socketInterface ;
-        if (webSocket != null) {
-            webSocket.send(message);
-        }else{
-            startWebSocket() ;
-        }
+    public void sendMessage(Map<String , String> map , WebSocketInterface socketInterface) {
+        String url =map.get("type") ;
+        FLog.w("sendMessage" ,"url>>>" + url) ;
+
+      //  dd
+        RetrofitClient.getRetrofitInstance().commonApi(url , map).enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                socketInterface.onResponse(new Gson().toJson(response.body())) ;
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                socketInterface.onResponse(t.getMessage()) ;
+            }
+        });
+
+
+
     }
     private void reconnect() {
         new Thread(() -> {

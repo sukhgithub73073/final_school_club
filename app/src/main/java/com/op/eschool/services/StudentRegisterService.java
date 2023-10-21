@@ -1,5 +1,6 @@
 package com.op.eschool.services;
 import static com.op.eschool.base.BaseActivity.commonDB;
+import static com.op.eschool.base.MyApplication.staffRegisterList;
 import static com.op.eschool.base.MyApplication.studentRegisterList;
 import static com.op.eschool.util.Constants.DB_STUDENT_OFFINE_LIST;
 
@@ -15,6 +16,7 @@ import com.op.eschool.util.websockets.WebSocketManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class StudentRegisterService extends Service {
 //    List<String> studentRegisterList ;
@@ -53,12 +55,11 @@ public class StudentRegisterService extends Service {
 
     private void registerApi() {
         try {
-            String json = studentRegisterList.get(0) ;
+            Map<String,String> map = studentRegisterList.get(0) ;
             WebSocketManager webSocketManager = new WebSocketManager();
             webSocketManager.startWebSocket();
-            webSocketManager.sendMessage(json ,res->{
+            webSocketManager.sendMessage(map ,res->{
                 studentRegisterList.remove(0) ;
-                //commonDB.putStringList(DB_STUDENT_OFFINE_LIST , studentRegisterList) ;
                 performAction();
             });
         }catch (Exception e){
@@ -66,7 +67,6 @@ public class StudentRegisterService extends Service {
         }
 
     }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -76,7 +76,6 @@ public class StudentRegisterService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         FLog.w("StudentRegisterService" ,"onBind");
-
         return null;
     }
 }

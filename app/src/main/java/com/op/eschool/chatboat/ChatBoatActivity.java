@@ -116,7 +116,7 @@ public class ChatBoatActivity extends BaseActivity {
         map.put("Location" ,Location) ;
 
         String json = new Gson().toJson(map) ;
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             RESPONSE = res ;
             runOnUiThread(()->{
                 try {

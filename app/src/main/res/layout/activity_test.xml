@@ -1,9 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@android:id/list"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-</ListView>
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <SurfaceView
+                android:id="@+id/surfaceView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+            </SurfaceView>
+
+
+
+            <LinearLayout
+                android:id="@+id/topLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:keepScreenOn="true"
+                android:orientation="vertical"
+                android:visibility="gone"
+
+                >
+
+                <RelativeLayout
+                    android:id="@+id/rl_capture"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_100sdp"
+                    android:background="@color/white">
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_300sdp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_300sdp"
+                            android:paddingStart="@dimen/_30sdp"
+                            android:paddingBottom="@dimen/_10sdp"
+                            android:src="@drawable/camera_preview" />
+
+                        <com.op.eschool.util.CircularCardView
+                            android:layout_width="@dimen/_200sdp"
+                            android:layout_height="@dimen/_200sdp"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerInParent="true">
+
+                            <RelativeLayout
+                                android:layout_width="@dimen/_200sdp"
+                                android:layout_height="@dimen/_200sdp"
+                                android:layout_alignParentTop="true"
+                                android:layout_centerInParent="true">
+
+
+
+
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:id="@+id/capture_image"
+                                    android:layout_width="@dimen/_200sdp"
+                                    android:layout_height="@dimen/_200sdp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_centerInParent="true"
+                                    android:background="@drawable/round_transparent_dr"
+                                    />
+
+
+                            </RelativeLayout>
+                        </com.op.eschool.util.CircularCardView>
+
+
+                    </RelativeLayout>
+
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/cap_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</layout>

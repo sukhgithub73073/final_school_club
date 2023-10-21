@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.op.eschool.R;
 import com.op.eschool.databinding.StudentAdapterItemBinding;
@@ -64,10 +65,16 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.Holder> 
         holder.binding.btnView.setOnClickListener(v->{
             commoTypenInterface.onItemClicked(position , "VIEW") ;
         });
-
+        holder.binding.ivAvatar.setOnClickListener(v -> {
+            commoTypenInterface.onItemClicked(position, "IMAGE_VIEW");
+        });
+        RequestOptions requestOptions = new RequestOptions()
+                .placeholder(R.drawable.students_placeholder)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE);
         Glide.with(context)
                 .load((list.get(position).Image))
-                .apply(new RequestOptions().placeholder(R.drawable.students_placeholder))
+                .apply(requestOptions)
                 .into(holder.binding.ivAvatar)   ;
 
     }

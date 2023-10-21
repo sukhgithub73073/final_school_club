@@ -47,7 +47,7 @@ public class LeaveListActivity extends BaseActivity {
         map.put("type" , "GetLeave");
         map.put("Unqid" , loginUserModel.collageUnqid) ;
         String json = new Gson().toJson(map) ;
-        webSocketManager.sendMessage(json , res->{
+        webSocketManager.sendMessage(map , res->{
             try {
                 list = (ArrayList<LeaveModel>) fromJson(res,
                         new TypeToken<ArrayList<LeaveModel>>() {

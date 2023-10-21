@@ -3,6 +3,10 @@
     <color name="primary_color">#0C46C4</color>
     <color name="secendery_color">#28C2A0</color>
 
+    <color name="preview_mock">#9a000000</color>
+    <color name="color_000000">#000000</color>
+    <color name="color_afff">#afff</color>
+
     <color name="hint_color">#B3B3B3</color>
     <color name="gray">#A6A1A1</color>
     <color name="dashboard_item_bg">#E9F9F5</color>

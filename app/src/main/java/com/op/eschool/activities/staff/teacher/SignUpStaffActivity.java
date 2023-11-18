@@ -3,6 +3,7 @@ package com.op.eschool.activities.staff.teacher;
 import static com.op.eschool.base.MyApplication.staffRegisterList;
 import static com.op.eschool.util.Constants.ANIMATED_DAILOG_TYPE_FAILED;
 import static com.op.eschool.util.Constants.ANIMATED_DAILOG_TYPE_SUCESS;
+import static com.op.eschool.util.Constants.CAMERA_CAPTURE_IMAGE_REQUEST_CODE;
 import static com.op.eschool.util.Constants.DB_STAFF_OFFINE_LIST;
 import static com.op.eschool.util.Utility.createImageFile;
 import static com.op.eschool.util.Utility.fromJson;
@@ -491,6 +492,7 @@ public class SignUpStaffActivity extends BaseActivity {
         dpd.show(getSupportFragmentManager(), "dob");
     }
 
+
     private void checkAllPermission(String type) {
         List<String> list = new ArrayList<>();
 
@@ -514,16 +516,27 @@ public class SignUpStaffActivity extends BaseActivity {
         } else if (type.equalsIgnoreCase("OnClickListener")) {
 
             Utility.imageNoteDialog(SignUpStaffActivity.this, t -> {
+//                if (t == 0) {
+//                    File image = createImageFile();
+//                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                    intent.putExtra("android.intent.extras.CAMERA_FACING", android.hardware.Camera.CameraInfo.CAMERA_FACING_FRONT);
+//                    imgUri = FileProvider.getUriForFile(this, getPackageName() + ".provider", image);
+//                    intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);
+//                    cameraIntent.launch(intent);
+//                } else {
+//                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                    galleryIntent.launch(pickPhoto);
+//                }
                 if (t == 0) {
                     File image = createImageFile();
+                    imgUri = Uri.fromFile(image);
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    intent.putExtra("android.intent.extras.CAMERA_FACING", android.hardware.Camera.CameraInfo.CAMERA_FACING_FRONT);
-                    imgUri = FileProvider.getUriForFile(this, getPackageName() + ".provider", image);
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);
-                    cameraIntent.launch(intent);
+                    intent.putExtra("android.intent.extras.CAMERA_FACING", android.hardware.Camera.CameraInfo.CAMERA_FACING_FRONT);
+                    startActivityForResult(intent, Constants.CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
                 } else {
                     Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    galleryIntent.launch(pickPhoto);
+                    startActivityForResult(pickPhoto, Constants.GALLERY_CAPTURE_IMAGE_REQUEST_CODE);
                 }
 
             });
@@ -562,6 +575,8 @@ public class SignUpStaffActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
@@ -572,16 +587,48 @@ public class SignUpStaffActivity extends BaseActivity {
                             .load(uploadFile)
                             .apply(new RequestOptions().placeholder(R.drawable.placeholder_upload))
                             .into(binding.image);
+
                     File compressFile = Utility.getCompressFile(getApplicationContext(), uploadFile);
                     if (compressFile != null) {
                         uploadFile = compressFile;
                     }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
 
+
+        }else if (requestCode == Constants.CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
+            loadImage();
+            //CropImage.activity(imgUri).start(SignUpStudentActivity.this);
+        }else if (requestCode == Constants.GALLERY_CAPTURE_IMAGE_REQUEST_CODE) {
+            imgUri = data.getData();
+            loadImage() ;
+
+            // Uri selectedImage = data.getData();
+            // CropImage.activity(selectedImage).start(SignUpStudentActivity.this);
+
         }
     }
+    private void loadImage() {
+        try {
+            uploadFile = FileUtils.getFileFromUri(getApplicationContext(), imgUri);
+            Glide.with(getApplicationContext())
+                    .load(uploadFile)
+                    .apply(new RequestOptions().placeholder(R.drawable.placeholder_upload))
+                    .into(binding.image);
+
+            File compressFile = Utility.getCompressFile(getApplicationContext(), uploadFile);
+            if (compressFile != null) {
+                uploadFile = compressFile;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
 }

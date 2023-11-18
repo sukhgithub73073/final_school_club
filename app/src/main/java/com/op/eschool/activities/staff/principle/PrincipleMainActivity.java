@@ -145,36 +145,31 @@ public class PrincipleMainActivity extends BaseActivity {
             List<DrawerModel> schoolSection = new ArrayList<>();
             schoolSection.add(new DrawerModel(R.drawable.attendance, "All School", new Intent(getApplicationContext() , SchoolListActivity.class))) ;
             schoolSection.add(new DrawerModel(R.drawable.attendance, "Add Session", new Intent(getApplicationContext() , AddSessionsActivity.class))) ;
-            drawerList.add(new StaffDrawerModel(R.drawable.attendance ,"School", schoolSection)) ;
+            drawerList.add(new StaffDrawerModel(false,R.drawable.attendance ,"School", schoolSection)) ;
         }
 
         if (commonDB.getString("SELECT_ROLE").equalsIgnoreCase("SubjectTeacher")){
-            drawerList.add(new StaffDrawerModel(R.drawable.student_male ,"Dashboard", new ArrayList<>())) ;
-
-
-
+            drawerList.add(new StaffDrawerModel(false,R.drawable.student_male ,"Dashboard", new ArrayList<>())) ;
         }
-
-
         List<DrawerModel> studentSection = new ArrayList<>();
         studentSection.add(new DrawerModel(R.drawable.attendance, "Manage Students", new Intent(getApplicationContext() , StudentListActivity.class))) ;
 //        studentSection.add(new DrawerModel(R.drawable.attendance, "Admission Form", new Intent(getApplicationContext() , ClassRegisterActivity.class))) ;
         studentSection.add(new DrawerModel(R.drawable.attendance, "Student Promotion", new Intent(getApplicationContext() , PromotionActivity.class))) ;
         studentSection.add(new DrawerModel(R.drawable.attendance, "Fees Collection", new Intent(getApplicationContext() , FeesCollectionActivity.class))) ;
-        drawerList.add(new StaffDrawerModel(R.drawable.student_male ,"Students", studentSection)) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.student_male ,"Students", studentSection)) ;
 
         List<DrawerModel> teacherSection = new ArrayList<>();
         teacherSection.add(new DrawerModel(R.drawable.attendance, "Manage Staff", new Intent(getApplicationContext() , TeacherListActivity.class)));
         //teacherSection.add(new DrawerModel(R.drawable.attendance, "Teacher Detail", new Intent(getApplicationContext() , TeacherProfileActivity.class)));
         //teacherSection.add(new DrawerModel(R.drawable.attendance, "Add Teacher", new Intent(getApplicationContext() , DetailRegisterActivity.class)));
         teacherSection.add(new DrawerModel(R.drawable.attendance, "Salary", new Intent(getApplicationContext() , SalaryDisActivity.class)));
-        drawerList.add(new StaffDrawerModel(R.drawable.tuition ,"Staff", teacherSection)) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.tuition ,"Staff", teacherSection)) ;
 
         List<DrawerModel> parentSection = new ArrayList<>();
         parentSection.add(new DrawerModel(R.drawable.attendance, "Manage Parents", new Intent(getApplicationContext() , ParentsListActivity.class))) ;
         //parentSection.add(new DrawerModel(R.drawable.attendance, "Parents Detail", null));
         //parentSection.add(new DrawerModel(R.drawable.attendance, "Add Parents", new Intent(getApplicationContext() , DetailRegisterActivity.class))) ;
-        drawerList.add(new StaffDrawerModel(R.drawable.person ,"Parents", parentSection)) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.person ,"Parents", parentSection)) ;
 
 
         List<DrawerModel> attendanceSection = new ArrayList<>();
@@ -182,7 +177,7 @@ public class PrincipleMainActivity extends BaseActivity {
         attendanceSection.add(new DrawerModel(R.drawable.attendance, "Staff Month Wise", new Intent(getApplicationContext() , AttendanceMonthlyActivity.class)));
         attendanceSection.add(new DrawerModel(R.drawable.attendance, "Staff Month Name Wise", null));
         attendanceSection.add(new DrawerModel(R.drawable.attendance, "Summary Report Monthly", null));
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_calendar ,"Attendance", attendanceSection)) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_calendar ,"Attendance", attendanceSection)) ;
 
 
         List<DrawerModel> classSection = new ArrayList<>();
@@ -193,38 +188,38 @@ public class PrincipleMainActivity extends BaseActivity {
         classSection.add(new DrawerModel(R.drawable.attendance, "Class Teacher", new Intent(getApplicationContext() , ClassTeacherListActivity.class).putExtra("type","GetSubTechrDtAll")));
         classSection.add(new DrawerModel(R.drawable.attendance, "Subject Teacher", new Intent(getApplicationContext() , ClassTeacherListActivity.class).putExtra("type","GetSubTechrDt")));
         //classSection.add(new DrawerModel(R.drawable.attendance, "Add New Class",  new Intent(getApplicationContext() , AddClassActivity.class)));
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_class ,"Class", classSection)) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_class ,"Class", classSection)) ;
 
         List<DrawerModel> subjectSection = new ArrayList<>();
         subjectSection.add(new DrawerModel(R.drawable.attendance, "Manage Subject", null));
         subjectSection.add(new DrawerModel(R.drawable.attendance, "Add New Subject", null));
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_subject ,"Subject", subjectSection)) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_subject ,"Subject", subjectSection)) ;
 
 
         List<DrawerModel> timetableSection = new ArrayList<>();
         timetableSection.add(new DrawerModel(R.drawable.attendance, "View Time Table", new Intent(getApplicationContext() , ViewTimeTableActivity.class))) ;
         timetableSection.add(new DrawerModel(R.drawable.attendance, "Manage Sub Subject", null));
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_timetable ,"Time Table", timetableSection)) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_timetable ,"Time Table", timetableSection)) ;
 
         List<DrawerModel> workSection = new ArrayList<>();
         workSection.add(new DrawerModel(R.drawable.attendance, "Class Work", null));
         workSection.add(new DrawerModel(R.drawable.attendance, "Home Work", null));
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_work ,"Work", workSection)) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_work ,"Work", workSection)) ;
 
         List<DrawerModel> ledgerSection = new ArrayList<>();
         ledgerSection.add(new DrawerModel(R.drawable.attendance, "Income", null));
         ledgerSection.add(new DrawerModel(R.drawable.attendance, "Expenses", null));
-        drawerList.add(new StaffDrawerModel(R.drawable.attendance ,"Ledger", ledgerSection)) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.attendance ,"Ledger", ledgerSection)) ;
 
         List<DrawerModel> leaveSection = new ArrayList<>();
         leaveSection.add(new DrawerModel(R.drawable.attendance, "Student", new Intent(getApplicationContext() , LeaveListActivity.class)));
         leaveSection.add(new DrawerModel(R.drawable.attendance, "Staff", new Intent(getApplicationContext() , LeaveListActivity.class)));
         leaveSection.add(new DrawerModel(R.drawable.attendance, "Self", new Intent(getApplicationContext() , LeaveListActivity.class)));
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_leave ,"Leave", leaveSection)) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_leave ,"Leave", leaveSection)) ;
 
         List<DrawerModel> complaintsSection = new ArrayList<>();
         complaintsSection.add(new DrawerModel(R.drawable.attendance, "Manage Complaints", new Intent(getApplicationContext() , ComplaintsActivity.class))) ;
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_feedback ,"Complaints", complaintsSection)) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_feedback ,"Complaints", complaintsSection)) ;
 
         List<DrawerModel> transportSection = new ArrayList<>();
         transportSection.add(new DrawerModel(R.drawable.attendance, "All Buses", null));
@@ -233,39 +228,39 @@ public class PrincipleMainActivity extends BaseActivity {
         transportSection.add(new DrawerModel(R.drawable.attendance, "Add New Driver", null));
         transportSection.add(new DrawerModel(R.drawable.attendance, "All Routes", null));
         transportSection.add(new DrawerModel(R.drawable.attendance, "Add New Route", null));
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_transport ,"Transport", transportSection)) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_transport ,"Transport", transportSection)) ;
 
         List<DrawerModel> examSection = new ArrayList<>();
         examSection.add(new DrawerModel(R.drawable.attendance, "Exam Schdule", null));
         examSection.add(new DrawerModel(R.drawable.attendance, "Exam Grades", null));
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_exam ,"Exam", examSection)) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_exam ,"Exam", examSection)) ;
 
         List<DrawerModel> documentSection = new ArrayList<>();
         documentSection.add(new DrawerModel(R.drawable.attendance, "Manage Document", null));
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_documents ,"Document", documentSection)) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_documents ,"Document", documentSection)) ;
 
         List<DrawerModel> librarySection = new ArrayList<>();
         librarySection.add(new DrawerModel(R.drawable.attendance, "All Books", null));
         librarySection.add(new DrawerModel(R.drawable.attendance, "Add New Book", null));
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_library ,"Library", librarySection)) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_library ,"Library", librarySection)) ;
 
         List<DrawerModel> hostelSection = new ArrayList<>();
         hostelSection.add(new DrawerModel(R.drawable.attendance, "Manage Hostel", null));
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_hostel ,"Hostel", hostelSection)) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_hostel ,"Hostel", hostelSection)) ;
 
 
 //        List<DrawerModel> accountSection = new ArrayList<>();
 //        accountSection.add(new DrawerModel(R.drawable.attendance, "All Fee Collection", null));
 //        accountSection.add(new DrawerModel(R.drawable.attendance, "Expenses", null));
 //        accountSection.add(new DrawerModel(R.drawable.attendance, "Add Expenses", null));
-//        drawerList.add(new StaffDrawerModel(R.drawable.attendance ,"Account", accountSection)) ;
+//        drawerList.add(new StaffDrawerModel(false,R.drawable.attendance ,"Account", accountSection)) ;
 //
 //
 //
 //        List<DrawerModel> routineSection = new ArrayList<>();
 //        routineSection.add(new DrawerModel(R.drawable.attendance, "All Class Routine", null));
 //        routineSection.add(new DrawerModel(R.drawable.attendance, "Add New Class Routine", null));
-//        drawerList.add(new StaffDrawerModel(R.drawable.attendance ,"Routine", routineSection)) ;
+//        drawerList.add(new StaffDrawerModel(false,R.drawable.attendance ,"Routine", routineSection)) ;
 //
 
 
@@ -273,7 +268,7 @@ public class PrincipleMainActivity extends BaseActivity {
         List<DrawerModel> noticeSection = new ArrayList<>();
         noticeSection.add(new DrawerModel(R.drawable.attendance, "All Notices", null));
         noticeSection.add(new DrawerModel(R.drawable.attendance, "Add New Notice", new Intent(getApplicationContext() , CreateNotesActivity.class)));
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_notice ,"Notice", noticeSection)) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_notice ,"Notice", noticeSection)) ;
 
 
         List<DrawerModel> settingSection = new ArrayList<>();
@@ -283,9 +278,9 @@ public class PrincipleMainActivity extends BaseActivity {
         settingSection.add(new DrawerModel(R.drawable.attendance, "Fee", new Intent(getApplicationContext() , FeeSettingActivity.class))) ;
         settingSection.add(new DrawerModel(R.drawable.attendance, "Salary", new Intent(getApplicationContext() , SalarySettingActivity.class))) ;
         settingSection.add(new DrawerModel(R.drawable.attendance, "Change Session", new Intent(getApplicationContext() , ChangeSessionActivity.class))) ;
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_settings ,"Setting", settingSection)) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_settings ,"Setting", settingSection)) ;
 
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_logout ,"Logout", new ArrayList<>())) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_logout ,"Logout", new ArrayList<>())) ;
 
 
         DrawerAdaptter drawerAdaptter = new DrawerAdaptter(drawerList, getApplicationContext(), new DrawerInterface() {

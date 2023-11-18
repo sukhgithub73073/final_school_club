@@ -116,19 +116,19 @@ public class StaffMainActivity extends BaseActivity {
         });
         List<StaffDrawerModel> drawerList = new ArrayList<>();
 
-        drawerList.add(new StaffDrawerModel(R.drawable.student_male ,"Dashboard", new ArrayList<>())) ;
-        drawerList.add(new StaffDrawerModel(R.drawable.tuition ,"Student", new ArrayList<>())) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.student_male ,"Dashboard", new ArrayList<>())) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.tuition ,"Student", new ArrayList<>())) ;
 
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_calendar ,"Attendance", new ArrayList<>())) ;
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_timetable ,"Time Table", new ArrayList<>())) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_calendar ,"Attendance", new ArrayList<>())) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_timetable ,"Time Table", new ArrayList<>())) ;
 
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_work ,"Class Work", new ArrayList<>())) ;
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_work ,"Home Work", new ArrayList<>())) ;
-        drawerList.add(new StaffDrawerModel(R.drawable.attendance ,"Fee", new ArrayList<>())) ;
-        drawerList.add(new StaffDrawerModel(R.drawable.attendance ,"Documents", new ArrayList<>())) ;
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_leave ,"Leave", new ArrayList<>())) ;
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_feedback ,"Complaints", new ArrayList<>())) ;
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_logout ,"Logout", new ArrayList<>())) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_work ,"Class Work", new ArrayList<>())) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_work ,"Home Work", new ArrayList<>())) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.attendance ,"Fee", new ArrayList<>())) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.attendance ,"Documents", new ArrayList<>())) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_leave ,"Leave", new ArrayList<>())) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_feedback ,"Complaints", new ArrayList<>())) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_logout ,"Logout", new ArrayList<>())) ;
 
         DrawerAdaptter drawerAdaptter = new DrawerAdaptter(drawerList, getApplicationContext(), new DrawerInterface() {
             @Override

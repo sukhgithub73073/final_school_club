@@ -275,9 +275,9 @@ public class SignUpStudentActivity extends BaseActivity {
         map.put("FullName", binding.etName.getText().toString().toUpperCase());
         map.put("DOB", "");
         map.put("Gender", "MALE");
-        map.put("FatherName", "MR. "+ binding.etFname.getText().toString().toUpperCase());
+        map.put("FatherName", "MR. " + binding.etFname.getText().toString().toUpperCase());
         map.put("FatherOccupation", "");
-        map.put("MotherName", "MRS. "+binding.etMname.getText().toString().toUpperCase());
+        map.put("MotherName", "MRS. " + binding.etMname.getText().toString().toUpperCase());
         map.put("MotherOccupation", "");
         map.put("PreviousSchool", "");
         map.put("AadharNo", "");
@@ -451,6 +451,9 @@ public class SignUpStudentActivity extends BaseActivity {
         }
     }
 
+    private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 11;
+    private static final int GALLERY_CAPTURE_IMAGE_REQUEST_CODE = 12;
+
     private void checkAllPermission(String type) {
         List<String> list = new ArrayList<>();
 
@@ -472,17 +475,29 @@ public class SignUpStudentActivity extends BaseActivity {
             PermissionUtil.requestPermission(SignUpStudentActivity.this, permissions, REQUEST_PERMISSSION);
         } else if (type.equalsIgnoreCase("OnClickListener")) {
             Utility.imageNoteDialog(SignUpStudentActivity.this, t -> {
+
                 if (t == 0) {
                     File image = createImageFile();
+                    imgUri = Uri.fromFile(image);
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    intent.putExtra("android.intent.extras.CAMERA_FACING", android.hardware.Camera.CameraInfo.CAMERA_FACING_FRONT);
-                    imgUri = FileProvider.getUriForFile(this, getPackageName() + ".provider", image);
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);
-                    cameraIntent.launch(intent);
+                    intent.putExtra("android.intent.extras.CAMERA_FACING", android.hardware.Camera.CameraInfo.CAMERA_FACING_FRONT);
+                    startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
                 } else {
                     Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    galleryIntent.launch(pickPhoto);
+                    startActivityForResult(pickPhoto, GALLERY_CAPTURE_IMAGE_REQUEST_CODE);
                 }
+//                if (t == 0) {
+//                    File image = createImageFile();
+//                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                    intent.putExtra("android.intent.extras.CAMERA_FACING", android.hardware.Camera.CameraInfo.CAMERA_FACING_FRONT);
+//                    imgUri = FileProvider.getUriForFile(this, getPackageName() + ".provider", image);
+//                    intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);
+//                    cameraIntent.launch(intent);
+//                } else {
+//                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                    galleryIntent.launch(pickPhoto);
+//                }
 
             });
 
@@ -515,7 +530,8 @@ public class SignUpStudentActivity extends BaseActivity {
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    CropImage.activity(imgUri).start(SignUpStudentActivity.this);
+
+                    loadImage();
                 }
             });
     ActivityResultLauncher<Intent> galleryIntent = registerForActivityResult(
@@ -526,20 +542,39 @@ public class SignUpStudentActivity extends BaseActivity {
                     try {
                         Intent data = result.getData();
                         imgUri = data.getData();
-                        CropImage.activity(imgUri).start(SignUpStudentActivity.this);
+                        loadImage() ;
+                       // CropImage.activity(imgUri).start(SignUpStudentActivity.this);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             });
 
+    private void loadImage() {
+        try {
+            uploadFile = FileUtils.getFileFromUri(getApplicationContext(), imgUri);
+            Glide.with(getApplicationContext())
+                    .load(uploadFile)
+                    .apply(new RequestOptions().placeholder(R.drawable.placeholder_upload))
+                    .into(binding.image);
+
+            File compressFile = Utility.getCompressFile(getApplicationContext(), uploadFile);
+            if (compressFile != null) {
+                uploadFile = compressFile;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
 
-
-            if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
@@ -561,46 +596,19 @@ public class SignUpStudentActivity extends BaseActivity {
             }
 
 
-//            if (resultCode == RESULT_OK) {
-//                Uri resultUri = result.getUri();
-//                try {
-//                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), resultUri);
-//                    removeBG(bitmap) ;
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
+        }else if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
+            loadImage();
+            //CropImage.activity(imgUri).start(SignUpStudentActivity.this);
+        }else if (requestCode == GALLERY_CAPTURE_IMAGE_REQUEST_CODE) {
+            imgUri = data.getData();
+            loadImage() ;
+
+           // Uri selectedImage = data.getData();
+           // CropImage.activity(selectedImage).start(SignUpStudentActivity.this);
+
         }
     }
-//    void removeBG(Bitmap b){
-//        uploadFile = Utility.bitmapToFile(getApplicationContext() , b ,"img_"+System.currentTimeMillis()) ;
-//        uploadFile = Utility.getCompressFile(getApplicationContext() , uploadFile ) ;
-//        Glide.with(getApplicationContext())
-//                .load(b)
-//                .apply(new RequestOptions().placeholder(R.drawable.placeholder_upload))
-//                .into(binding.image) ;
-//
-////        binding.progressBar.setVisibility(View.VISIBLE) ;
-////        new ImageConvert().ImageConvertLocal(getApplicationContext() , b, new BgRemoveInterface() {
-////            @Override
-////            public void onSuccess(@NonNull Bitmap bitmap) {
-////                try {
-////                    binding.progressBar.setVisibility(View.GONE) ;
-////                    FLog.w("removeBG" , "onSuccess");
-////                    Bitmap bbmp = Utility.loadFormatedImage(getApplicationContext() , binding.image , bitmap);
-////                    uploadFile = Utility.bitmapToFile(getApplicationContext() , bbmp ,"img_"+System.currentTimeMillis()) ;
-////                    uploadFile = Utility.getCompressFile(getApplicationContext() , uploadFile ) ;
-////                }catch (Exception e){e.printStackTrace();}
-////            }
-////            @Override
-////            public void onFailed(@NonNull Exception exception) {
-////                FLog.w("removeBG" , "onFailed" + exception);
-////                binding.progressBar.setVisibility(View.GONE) ;
-////                Utility.showAnimatedDialog(ANIMATED_DAILOG_TYPE_FAILED , SignUpStudentActivity.this , ""+exception.getMessage() ,()->{
-////                });
-////            }
-////        });
-//    }
+
 
     void showDialogWithButtons() {
         Utility.showDialogWithButtons(ANIMATED_DAILOG_TYPE_SUCESS, SignUpStudentActivity.this,

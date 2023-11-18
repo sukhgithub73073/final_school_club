@@ -94,16 +94,16 @@ public class MainActivity extends BaseActivity {
         });
         List<StaffDrawerModel> drawerList = new ArrayList<>();
 
-        drawerList.add(new StaffDrawerModel(R.drawable.student_male ,"Dashboard", new ArrayList<>())) ;
-        drawerList.add(new StaffDrawerModel(R.drawable.tuition ,"Staff", new ArrayList<>())) ;
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_calendar ,"Attendance", new ArrayList<>())) ;
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_timetable ,"Time Table", new ArrayList<>())) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.student_male ,"Dashboard", new ArrayList<>())) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.tuition ,"Staff", new ArrayList<>())) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_calendar ,"Attendance", new ArrayList<>())) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_timetable ,"Time Table", new ArrayList<>())) ;
 
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_work ,"Class Work", new ArrayList<>())) ;
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_work ,"Home Work", new ArrayList<>())) ;
-        drawerList.add(new StaffDrawerModel(R.drawable.attendance ,"Documents", new ArrayList<>())) ;
-        drawerList.add(new StaffDrawerModel(R.drawable.attendance ,"Achivment", new ArrayList<>())) ;
-        drawerList.add(new StaffDrawerModel(R.drawable.ic_logout ,"Logout", new ArrayList<>())) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_work ,"Class Work", new ArrayList<>())) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_work ,"Home Work", new ArrayList<>())) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.attendance ,"Documents", new ArrayList<>())) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.attendance ,"Achivment", new ArrayList<>())) ;
+        drawerList.add(new StaffDrawerModel(false,R.drawable.ic_logout ,"Logout", new ArrayList<>())) ;
 
         DrawerAdaptter drawerAdaptter = new DrawerAdaptter(drawerList, getApplicationContext(), new DrawerInterface() {
             @Override

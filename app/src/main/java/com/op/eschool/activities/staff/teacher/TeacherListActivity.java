@@ -359,17 +359,29 @@ public class TeacherListActivity extends BaseActivity {
             PermissionUtil.requestPermission(TeacherListActivity.this, permissions, REQUEST_PERMISSSION);
         } else if (type.equalsIgnoreCase("OnClickListener")) {
             Utility.imageNoteDialog(TeacherListActivity.this, t -> {
+//                if (t == 0) {
+//                    File image = createImageFile();
+//                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                    imgUri = FileProvider.getUriForFile(this, getPackageName() + ".provider", image);
+//                    intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);
+//                    cameraIntent.launch(intent);
+//                } else {
+//                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                    galleryIntent.launch(pickPhoto);
+//                }
+
+
                 if (t == 0) {
                     File image = createImageFile();
+                    imgUri = Uri.fromFile(image);
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    imgUri = FileProvider.getUriForFile(this, getPackageName() + ".provider", image);
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);
-                    cameraIntent.launch(intent);
+                    intent.putExtra("android.intent.extras.CAMERA_FACING", android.hardware.Camera.CameraInfo.CAMERA_FACING_FRONT);
+                    startActivityForResult(intent, Constants.CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
                 } else {
                     Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    galleryIntent.launch(pickPhoto);
+                    startActivityForResult(pickPhoto, Constants.GALLERY_CAPTURE_IMAGE_REQUEST_CODE);
                 }
-
             });
 
         }
@@ -401,6 +413,8 @@ public class TeacherListActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
@@ -417,25 +431,42 @@ public class TeacherListActivity extends BaseActivity {
                         uploadFile = compressFile;
                     }
 
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
 
 
-//            if (resultCode == RESULT_OK) {
-//                Uri resultUri = result.getUri();
-//                try {
-//                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), resultUri);
-//                    removeBG(bitmap) ;
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
+        }else if (requestCode == Constants.CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
+            loadImage();
+            //CropImage.activity(imgUri).start(SignUpStudentActivity.this);
+        }else if (requestCode == Constants.GALLERY_CAPTURE_IMAGE_REQUEST_CODE) {
+            imgUri = data.getData();
+            loadImage() ;
+
+            // Uri selectedImage = data.getData();
+            // CropImage.activity(selectedImage).start(SignUpStudentActivity.this);
+
         }
     }
+    private void loadImage() {
+        try {
+            uploadFile = FileUtils.getFileFromUri(getApplicationContext(), imgUri);
+            Glide.with(getApplicationContext())
+                    .load(uploadFile)
+                    .apply(new RequestOptions().placeholder(R.drawable.placeholder_upload))
+                    .into(image);
 
+            File compressFile = Utility.getCompressFile(getApplicationContext(), uploadFile);
+            if (compressFile != null) {
+                uploadFile = compressFile;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
     public String getBase64FromFile(String path) {
         Bitmap bmp = null;
         ByteArrayOutputStream baos = null;

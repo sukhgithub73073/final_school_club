@@ -14,6 +14,8 @@ public class Constants {
     public static final String DB_STAFF_OFFINE_LIST = "STAFF_OFFINE_LIST" ;
     public static final String DB_APP_OPEN_AT = "DB_APP_OPEN_AT" ;
     public static final String DB_SELECTED_GROUP_CLASS = "DB_SELECTED_GROUP_CLASS" ;
+    public static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 11;
+    public static final int GALLERY_CAPTURE_IMAGE_REQUEST_CODE = 12;
 
 
 }

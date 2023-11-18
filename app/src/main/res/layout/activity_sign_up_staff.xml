@@ -174,7 +174,7 @@
                                 android:textSize="@dimen/_13ssp"
                                 android:textColor="@color/black"
                                 android:singleLine="true"
-
+                                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
                                 />
                             </com.google.android.material.textfield.TextInputLayout>
@@ -221,6 +221,8 @@
                             android:textColor="@color/black"
                             android:singleLine="true"
 
+                            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
 
                             />
 
@@ -242,7 +244,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/_13ssp"
                             android:textColor="@color/black"
-
+                            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                             android:singleLine="true"
 
                             />
@@ -439,7 +441,9 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_marginTop="@dimen/_5sdp"
-                        android:layout_marginStart="@dimen/_2sdp">
+                        android:layout_marginStart="@dimen/_2sdp"
+                        android:visibility="gone"
+                        >
 
                         <CheckBox
                             android:id="@+id/check_offline"
